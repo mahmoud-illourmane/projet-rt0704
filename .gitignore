@@ -1,5 +1,5 @@
 # Ignorer les fichiers et les répertoires
-
+.vscode
 front_end/__pycache__/
 back_end/__pycache__/
 
