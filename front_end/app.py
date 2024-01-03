@@ -26,7 +26,7 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 from routes.api import *
 from routes.web import *
 
-# Configuration de l'url du serveur flask back end
+# Configuration de l'url du serveur flask back-end
 app.config['SERVER_BACK_END_URL'] = 'http://127.0.0.1:5001'
 
 if __name__ == '__main__':
