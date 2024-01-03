@@ -1,0 +1,70 @@
+/*Palette de couleurs*/
+    .color_1{
+        color : rgb(97, 118, 227) !important;
+        text-decoration: none;
+    }
+    .color_2{
+        color : rgb(204, 105, 227) !important;
+        text-decoration: none;
+    }
+    .color_3{
+        color : rgb(35, 117, 83) !important;
+        text-decoration: none;
+    }
+    .color_4{
+        color : rgb(208, 233, 126) !important;
+        text-decoration: none;
+    }
+    .color_5{
+        color: rgb(230, 196, 88) !important;
+        text-decoration: none;
+    }
+    .color_6{
+        color : rgb(209, 224, 183) !important;
+        text-decoration: none;
+    }
+    .color_7{
+        color : rgb(227, 60, 23) !important;
+        text-decoration: none !important;
+    }
+    .color_8{
+        color : rgb(213, 213, 213) !important;
+        text-decoration: none;
+    }
+    .color_9{
+        color : rgb(4, 6, 70) !important;
+        text-decoration: none;
+    }
+    .color_10{
+        color : rgb(30, 29, 29) !important;
+        text-decoration: none;
+    }
+    .color_11{
+        color : rgb(6, 185, 48) !important;
+        text-decoration: none;
+    }
+    .color_12{
+        color : rgb(67, 66, 66) !important;
+        text-decoration: none;
+    }
+    .color_13{
+        color : rgb(183, 71, 46) !important;
+        text-decoration: none !important;
+    }
+    .color_14{
+        color : rgb(71, 71, 71) !important;
+        text-decoration: none;
+    }
+    .color_15{
+        color : #fff !important;
+        text-decoration: none;
+    }
+    .background_color_1{
+        background-color : rgb(54, 35, 58) !important;
+        text-decoration: none;
+    }
+    .background_color_2{
+        background-color : rgb(70, 64, 76) !important;
+        text-decoration: none;
+    }
+/*Palette de couleurs*/

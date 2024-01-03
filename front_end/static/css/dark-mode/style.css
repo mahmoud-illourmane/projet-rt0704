@@ -1,0 +1,62 @@
+/*
+|
+| DARK-MODE
+|
+*/
+
+/*==== CONSTS ====*/
+    body { 
+        background-color: #2b2a2a !important;
+    }
+
+    *, .menu_open {
+        color:#fff !important;
+    }
+    th, td, .text-color, select, option, .me-auto, input {
+        color:  #2b2a2a !important;
+    }
+
+    .info-message p {
+        color:  #2b2a2a !important;
+    }
+    /*== Modals ==*/
+        .modal-body { 
+            background-color: #2b2a2a !important;
+            color: #fff !important;
+        }
+    /*== END/Modals ==*/
+
+    /*== Show movie page ==*/
+        .span-synopsis {
+            color: #dedede !important;
+        }
+    /*== END/Show movie page ==*/
+/*==== END/CONSTS ====*/
+
+/*== Navbar ==*/
+    .navbar {
+        width: 100% !important;
+    }
+
+    .nav-item:hover {
+        background-color: rgb(97, 118, 227) !important;
+        color: #fff !important;
+        border-radius: 8px;
+    }
+/*== END/Navbar ==*/
+
+
+
+/*Tablettes*/
+@media all  and (min-width: 601px) and (max-width: 1023px){
+    /*==== CONSTS ====*/
+
+    /*==== END/CONSTS ====*/
+}
+
+/*Smartphones*/
+@media all  and (max-width: 600px){
+    /*==== CONSTS ====*/
+
+    /*==== END/CONSTS ====*/
+}

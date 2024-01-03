@@ -1,0 +1,170 @@
+/*
+|
+| INDEX
+|
+*/
+
+/*==== CONSTS ====*/
+    .menu_open {
+        text-decoration: none !important;
+    }
+
+    .input {
+        color: rgb(25, 25, 25) !important;
+    }
+    a { 
+        cursor: pointer !important;
+    }
+
+    /*== Modals ==*/
+        .modal-header, .modal-footer { 
+            background-color: rgb(140, 139, 137) !important;
+            color: #fff !important;
+        }
+    /*== END/Modals ==*/
+
+    
+/*==== END/CONSTS ====*/
+
+/*== Modal Confirm delete movie ==*/
+    .modal-danger .modal-header, .modal-danger .modal-footer {
+        background-color: rgb(240, 81, 81) !important;
+    }
+    .modal-danger .modal-body {
+        background-color: rgb(123, 94, 94) !important;
+    }
+/*== END/Modal Confirm delete movie ==*/
+
+/*== Modal add movie ==*/
+    .material-icons.star, .material-icons.star-silver {
+        color: gray !important;
+        cursor: pointer !important;
+    }
+    .material-icons.star.rated{
+        color: gold !important;
+    }
+    
+    .movie-image .info-message {
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+/*== Modal add movie ==*/
+    
+/*== Modal gestions movie ==*/
+    .operations {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+    }
+    .operation-filter {
+        width: 40%;
+    }
+    .operation-search {
+        width: 40%;
+    }
+/*== END/Modal gestions movie ==*/
+
+/*== Filter body movies ==*/
+    .filters {
+        display: flex;
+        gap: 10px;
+    }
+    
+/*== END/Filter body movie ==*/
+
+/*== Movies ==*/
+    .movies {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .movie {
+        background-color: rgb(67, 66, 66) !important;
+        border-radius: 10px;
+        padding: 10px;
+        min-width: 170px !important;
+        max-width: 170px !important;
+        height: auto;
+    }
+
+    .movie:hover {
+        transform: scale(1.1);
+        transition-timing-function: ease-in-out;
+    }
+
+    .movie-picture {
+        text-align: center;
+    }
+    .img-movie {
+        min-width: 140px;
+        max-width: 150px;
+        min-height: 200px;
+        max-height: 220px;
+        border-radius: 10px;
+    }
+    
+    .movie-title h6 {
+        color : rgb(125, 143, 233) !important;
+    }
+    .material-icons.star-gold {
+        color: rgb(221, 189, 6) !important;
+    }
+/*== END/Movies ==*/
+
+/*== Btns Modal edit movie ==*/
+    .star, .star-edit {
+        font-size: 50px !important;
+    }
+/*== END/Btns Modal edit movie ==*/
+
+/*Tablettes*/
+@media all  and (min-width: 601px) and (max-width: 1023px){
+    /*==== CONSTS ====*/
+    
+    /*==== END/CONSTS ====*/
+
+    /*== Movies ==*/
+        .movies {
+            justify-content: center;
+        }
+    /*== END/Movies ==*/
+}
+
+/*Smartphones*/
+@media all  and (max-width: 600px){
+    /*==== CONSTS ====*/
+        
+    /*==== END/CONSTS ====*/
+
+    /*== Modal gestions movie ==*/
+        .operations {
+            flex-direction: column;
+            gap: 20px;
+        }
+        .operation-filter, .operation-search {
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    /*== END/Modal gestions movie ==*/
+
+    /*== Filter ==*/
+        .filters {
+            flex-direction: column;
+            
+        }
+        .btn-submit-filter {
+            text-align: center;
+        }
+    /*== END/Filter ==*/
+
+    /*== Movies ==*/
+        .movies {
+            justify-content: center;
+        }
+    /*== END/Movies ==*/
+}

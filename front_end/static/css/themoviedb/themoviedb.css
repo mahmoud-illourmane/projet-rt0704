@@ -1,0 +1,84 @@
+/*==== CONSTS ====*/
+    
+/*==== END/CONSTS ====*/
+
+.button-clicked {
+    background-color: green !important;
+    color: white; /* Changement de la couleur du texte si nécessaire */
+}
+
+/*== Movies ==*/
+    .movies {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .movie {
+        background-color: rgb(67, 66, 66) !important;
+        border-radius: 10px;
+        padding: 10px;
+        min-width: 170px !important;
+        max-width: 170px !important;
+        height: auto;
+    }
+
+    .movie:hover {
+        transform: scale(1.1);
+        transition-timing-function: ease-in-out;
+    }
+
+    .movie-picture {
+        text-align: center;
+    }
+    .img-movie {
+        min-width: 140px;
+        max-width: 150px;
+        min-height: 200px;
+        max-height: 220px;
+        border-radius: 10px;
+    }
+
+    .movie-title h6 {
+        color : rgb(125, 143, 233) !important;
+    }
+    .material-icons.star-gold {
+        color: rgb(221, 189, 6) !important;
+    }
+
+    .default-image-background {
+        background-color: gray; /* Couleur de fond gris */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white; /* Texte blanc au centre */
+        font-size: 20px;
+        min-width: 140px;
+        max-width: 150px;
+        min-height: 200px;
+        max-height: 220px;
+        border-radius: 10px;
+    }
+/*== END/Movies ==*/
+
+/*Tablettes*/
+@media all  and (min-width: 601px) and (max-width: 1023px){
+    /*==== CONSTS ====*/
+
+    /*==== END/CONSTS ====*/
+}
+
+/*Smartphones*/
+@media all  and (max-width: 600px){
+    /*==== CONSTS ====*/
+
+    /*==== END/CONSTS ====*/
+
+    /*== Movies ==*/
+        .movies {
+            justify-content: center;
+        }
+    /*== END/Movies ==*/
+}

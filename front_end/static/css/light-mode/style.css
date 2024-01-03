@@ -1,0 +1,54 @@
+/*
+|
+| LIGHT-MODE
+|
+*/
+
+/*==== CONSTS ====*/
+    body { 
+        background-color: #fff;
+    }
+
+    *, .menu_open {
+        color:#2b2a2a;
+    }
+    
+    p, input {
+        color: #333131;
+    }
+    .btn, .filter-title {
+        color: #fff !important;
+    }
+
+    /*== Show movie page ==*/
+        .span-synopsis {
+            color: rgb(80, 79, 79)!important;
+        }
+    /*== END/Show movie page ==*/
+
+/*==== END/CONSTS ====*/
+
+/*== Navbar ==*/
+    .nav-item:hover{
+        background-color: rgb(97, 118, 227) !important;
+        color: #fff !important;
+        border-radius: 8px;
+    }
+    .nav-link:hover{
+        color: #fff !important;
+    }
+/*== END/Navbar ==*/
+
+/*Tablettes*/
+@media all  and (min-width: 601px) and (max-width: 1023px){
+    /*==== CONSTS ====*/
+
+    /*==== END/CONSTS ====*/
+}
+
+/*Smartphones*/
+@media all  and (max-width: 600px){
+    /*==== CONSTS ====*/
+
+    /*==== END/CONSTS ====*/
+}
