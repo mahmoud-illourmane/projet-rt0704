@@ -4,7 +4,7 @@ pageContent = $(".body");
 
 /**
  * Cette méthode permet d'arrêter l'animation de préchargement des données.
- */
+*/
 function stopLoadingAnimation() {
     // Fait disparaître progressivement l'élément avec la classe 'spinner' en 200 ms
     spinner.fadeOut(200);

@@ -12,11 +12,10 @@ from datetime import datetime
 @app.route('/', methods=['GET'])
 def index():
     """
-        Affiche la page d'accueil de l'application.
-
+    Summary:
         Cette route renvoie une vue HTML représentant la page d'accueil de l'application.
 
-        Returns:
+    Returns:
             str: Une vue HTML de la page d'accueil.
     """
     if request.method == 'GET':

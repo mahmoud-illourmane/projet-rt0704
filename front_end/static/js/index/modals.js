@@ -4,7 +4,7 @@
  |  AUTHOR: MAHMOUD ILLOURMANE
  |  DATE: 12-23-23 US DATE
  | 
- */
+*/
 
 $(document).on("DOMContentLoaded", function() {
 

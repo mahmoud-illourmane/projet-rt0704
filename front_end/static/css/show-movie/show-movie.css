@@ -20,8 +20,6 @@ img {
     align-items: center;
 }
 
-
-
 /*Tablettes*/
 @media all  and (min-width: 601px) and (max-width: 1023px){
     /*==== CONSTS ====*/
