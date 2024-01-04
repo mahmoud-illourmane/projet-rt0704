@@ -27,6 +27,7 @@ from routes.api import *
 # Importation de la classe Movie
 from src.classes.movie import Movie
 
+# Clé api de theMovieDB
 app.config['API_KEY'] = '0a40109164d6a67baadc4a7993451212'
 
 if __name__ == '__main__':
