@@ -3,6 +3,8 @@
 front_end/__pycache__/
 back_end/__pycache__/
 
+app.py
+
 *.pyc
 *.pyo
 *.pyd
