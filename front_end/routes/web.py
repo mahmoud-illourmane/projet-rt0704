@@ -54,7 +54,7 @@ def editMovie(movie_id):
             'rating': rating
         }
 
-        return render_template('videotheque/edit-movie.html', movie=movie_data)
+        return render_template('videotheque/views/edit-movie.html', movie=movie_data)
     abort(405)
 
 @app.route('/show-movie', methods=['POST'])
@@ -93,7 +93,7 @@ def showMovie():
             'image64': image64
         }
 
-        return render_template('videotheque/show-movie.html', movie=movie_data)
+        return render_template('videotheque/views/show-movie.html', movie=movie_data)
     abort(405)
     
 #
@@ -114,43 +114,7 @@ def themoviedb():
             str: Une vue HTML représentant la page d'accueil de l'API The Movie Database.
     """
     if request.method == 'GET':
-        return render_template('themoviedb/themoviedb-index.html')
-    abort(405)
-    
-@app.route('/show-movie-themoviedb', methods=['POST'])
-def showMovie_themoviedb():
-    """
-        Affiche les détails d'un film de l'API The Movie Database.
-
-        Cette route gère une demande POST contenant des données sur un film, puis affiche les détails de ce film
-        à l'aide d'une vue HTML.
-
-        Args:
-            None (utilise les données de la demande POST)
-
-        Returns:
-            str: Une vue HTML représentant les détails du film de l'API The Movie Database.
-    """
-
-    if request.method == 'POST':
-        movieName = request.form.get('movieName')
-        movieCategory = request.form.get('movieCategory')
-        movieRelease_str = request.form.get('movieRelease')
-        movieRelease = datetime.strptime(movieRelease_str, '%Y-%m-%d')
-        movieNotation = request.form.get('movieNotation')
-        movieSynopsis = request.form.get('movieSynopsis')
-        movieCover = request.form.get('movieCover')
-        
-        movie_data = {
-            'title': movieName,
-            'category': movieCategory,
-            'release': movieRelease,
-            'notation': float(movieNotation),
-            'synopsis': movieSynopsis,
-            'cover': movieCover
-        }
-
-        return render_template('themoviedb/show-themovie-db.html', movie=movie_data)
+        return render_template('themoviedb/views/themoviedb-index.html')
     abort(405)
     
 @app.route('/show-movie-themoviedb/details', methods=['POST'])
@@ -168,7 +132,7 @@ def show_movie_details_themoviedb():
             'movieBackgroundImage': f"https://image.tmdb.org/t/p/w500{request.form.get('backgroundImage')}" if request.form.get('backgroundImage') else None
         }
         
-        return render_template('themoviedb/show-movie-details.html', movie=movie_data)
+        return render_template('themoviedb/views/show-movie-details.html', movie=movie_data)
     
     # Si la méthode HTTP n'est pas POST, retourner une erreur 405
     abort(405)
