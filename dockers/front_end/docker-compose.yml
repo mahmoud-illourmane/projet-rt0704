@@ -7,4 +7,4 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ../../front_end:/app   # Pas sur que ça marche
+      - /home/toto/project-rt0704/front_end:/app   # Pas sur que ça marche

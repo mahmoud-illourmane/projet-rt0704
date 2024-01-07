@@ -1,8 +1,10 @@
 version: '3'
 services:
-  back_end:
-    build: .
+  front_end:
+    # build: . // Docker Compose recherche un Dockerfile dans le répertoire actuel
+    image: img_p_rt_704_back_end
+    container_name: container_p_rt_0704_back_end
     ports:
       - "5000:5000"
     volumes:
-      - ./back_end:/app    
+      - /home/toto/project-rt0704/back_end:/app   # Pas sur que ça marche
