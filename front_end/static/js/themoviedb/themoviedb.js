@@ -207,24 +207,125 @@ $(document).ready(function() {
 
     /*== Fast Search ==*/
         $('#recent-release').click(function() {
+            $("#searchResults").empty();
             sendAjaxRequestFastSearch(1);
         });
 
         $('#bests-notations').click(function() {
+            $("#searchResults").empty();
             sendAjaxRequestFastSearch(2);
         });
 
         $('#fr-movies').click(function() {
+            $("#searchResults").empty();
             sendAjaxRequestFastSearch(3);
         });
 
+        /**
+         * Cette méthode fait une requête Ajax au serveur backend pour récuperer des résultats
+         * sur l'api theMovieDb.
+         * @param {int} operationId 
+         */
         function sendAjaxRequestFastSearch(operationId) {
-            console.log(operationId);
+            if (operationId < 1 ||  operationId > 3) {
+                showToastMessage("La commande que vous avez entrée n'est pas reconnue.", "text-danger");
+                return;
+            }
+
             // Sélection du conteneur des résultats de recherche
             let searchResults = $("#searchResults");
-            // Efface le contenu préalable du conteneur
-            searchResults.empty();
-            searchResults.text(operationId);
+
+            // Sélectionne tous les boutons à l'intérieur des divs avec la classe "fast-search-btn"
+            $(".fast-search-btn button").prop("disabled", true);
+
+            var apiUrl = '/api/themoviedb/get/fast-search';
+            var data = { operationId: operationId };
+
+            // Requête AJAX
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                data: data,
+                success: function(response) {
+                    if(response.status == "200") {
+                        // Parcoure des données des films et générer le code HTML
+                        response.data.forEach((movie) => {
+                            // Génération de l'URL de l'image
+                            let imageUrl = `https://image.tmdb.org/t/p/w500${movie.cover_photo}`;
+
+                            // Le code HTML d'un film
+                            let movieHtml;
+                            if (movie.cover_photo) {
+                                movieHtml = `
+                                    <div class="movie" data-movie-id="${movie.id}" data-category="${movie.category}">
+                                        <div class="movie-picture mb-1">
+                                            <img class="img-movie" src="${imageUrl}">
+                                        </div>
+                                        <div class="movie-title">
+                                            <h6>${movie.title}</h6>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex gap-1 mb-1">
+                                            <span class="material-icons font-size-XL color_8">category</span>
+                                            <h6 class="font-size-M color_8">${movie.genres.join(', ')}</h6>
+                                        </div>
+                                        <div class="d-flex gap-1 mb-1">
+                                            <span class="material-icons font-size-XL color_8">calendar_month</span>
+                                            <h6 class="font-size-M color_8">${movie.release_date}</h6>
+                                        </div>
+                                        <div class="movie-rating d-flex gap-1 mb-1">
+                                            <span class="material-icons color_8">stars</span>
+                                            <h6 class="font-size-L color_5">${movie.user_rating}</h6>
+                                        </div>
+                                        <div class="text-center">
+                                            <a data-movie-id="${movie.id}" data-movie-cover="${imageUrl}" class="material-icons color_2 movie_click">open_in_new</a>
+                                        </div>
+                                    </div>
+                                `;
+                            } else {
+                                movieHtml = `
+                                    <div class="movie" data-movie-id="${movie.id}" data-category="${movie.category}">
+                                        <div class="movie-picture mb-1 default-image-background">
+                                            Image non disponible
+                                        </div>
+                                        <div class="movie-title">
+                                            <h6>${movie.title}</h6>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex gap-1 mb-1">
+                                            <span class="material-icons font-size-XL color_8">category</span>
+                                            <h6 class="font-size-M color_8">${movie.genres.join(', ')}</h6>
+                                        </div>
+                                        <div class="d-flex gap-1 mb-1">
+                                            <span class="material-icons font-size-XL color_8">calendar_month</span>
+                                            <h6 class="font-size-M color_8">${movie.release_date}</h6>
+                                        </div>
+                                        <div class="movie-rating d-flex gap-1 mb-1">
+                                            <span class="material-icons color_8">stars</span>
+                                            <h6 class="font-size-L color_5">${movie.user_rating}</h6>
+                                        </div>
+                                        <div class="text-center">
+                                            <a data-movie-id="${movie.id}" class="material-icons color_2 movie_click">open_in_new</a>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+
+                            // Ajout du code HTML du film au conteneur de résultats de recherche
+                            searchResults.append(movieHtml);
+                        });
+                    }
+                    else{
+                        showToastMessage(response.error, "text-danger");
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('Erreur AJAX :', textStatus, errorThrown);
+                },
+                complete: function() {
+                    $(".fast-search-btn button").prop("disabled", false);
+                }
+            });
         }
     /*== END/Fast Search ==*/
 
@@ -291,4 +392,5 @@ $(document).ready(function() {
             }
         });
     });
+    
 });

@@ -293,20 +293,63 @@ def api_themoviedb_get():
 
 @app.route('/api/themoviedb/get/movie', methods=['GET'])
 def api_themoviedb_get_movie_details():
+    """
+        Récupère les détails d'un film à partir de l'API The Movie Database (TMDb).
+
+        Args:
+            Aucun argument n'est passé directement à cette fonction, mais l'identifiant du film est attendu
+            dans les paramètres de la requête HTTP GET sous la clé "movieId".
+
+        Returns:
+            Une réponse JSON contenant les détails du film ou une réponse d'erreur en cas d'échec.
+    """
     try:
+        # Récupère l'identifiant du film depuis les paramètres de la requête HTTP GET
         movieId = request.args.get("movieId")
         
+        # Récupère la clé API à partir de la configuration de l'application Flask
         api_key = app.config['API_KEY']
+        
+        # Initialise une instance de la classe TheMovieDB avec la clé API
         tmdb = TheMovieDB(api_key)
         
+        # Appelle la méthode get_movie_details_by_id() pour récupérer les détails du film
         response = tmdb.get_movie_details_by_id(movieId)
         
+        # Renvoie la réponse de l'API TMDb en tant que réponse HTTP
         return response
     except Exception as e:
+        # En cas d'erreur, renvoie une réponse d'erreur avec le statut 500
         return jsonify({
             "status": "500",
             "error": str(e)
         }), 500
+        
+@app.route('/api/themoviedb/get/fast-search', methods=['GET'])
+def api_themoviedb_get_fast_search():
+    try:
+        # Récupère l'identifiant de l'opération que l'utilisateur souhaite faire
+        operationId = int(request.args.get("operationId"))
+        
+        # Initialise une instance de la classe TheMovieDB avec la clé API
+        api_key = app.config['API_KEY']
+        tmdb = TheMovieDB(api_key)
+        
+        if operationId == 1:
+            response = tmdb.get_movies_by_popularity()
+        elif operationId == 2:
+            response = tmdb.get_movies_now_playing()
+        else:
+            response = tmdb.get_movies_horror()
+            
+        return response
+    except Exception as e:
+        # En cas d'erreur, renvoie une réponse d'erreur avec le statut 500
+        return jsonify({
+            "status": "500",
+            "error": str(e)
+        }), 500
+
     
     
     

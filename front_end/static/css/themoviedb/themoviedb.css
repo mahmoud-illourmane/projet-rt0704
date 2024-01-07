@@ -103,4 +103,15 @@
             justify-content: center;
         }
     /*== END/Movies ==*/
+
+
+    /*== fast-search-btns ==*/
+        .fast-search {
+            width: 100%;
+        }
+
+        .fast-search-btns {
+            flex-wrap: wrap;
+        }
+    /*== END/fast-search-btns ==*/
 }

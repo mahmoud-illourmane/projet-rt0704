@@ -296,11 +296,14 @@
         .pc-only{ display: none !important; }
     /* Display and not display */
 
+    /*== Inputs width ==*/
+        .input-width {
+            width: 100%;
+        }
+    /*== END/Inputs width ==*/
+
 /*==== CONST/End ====*/
 
-/*==== Header ====*/
-
-/*==== Header/End ====*/
 
 /*==== Body ====*/
 

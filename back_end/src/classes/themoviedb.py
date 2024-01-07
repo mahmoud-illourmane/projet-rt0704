@@ -1,6 +1,6 @@
 from __future__ import annotations
 from flask import jsonify           # Permet d'utiliser le nom de la classe en tant que type dans les annotations de type
-import requests
+import requests, datetime
 
 """
 |
@@ -155,7 +155,6 @@ class TheMovieDB:
         for original_key, new_key in self.key_mapping.items():
             if original_key in api_response:
                 extracted_movie[new_key] = api_response[original_key]
-    
         return extracted_movie
     
     def get_genre_ids(self, genre_names):
@@ -320,14 +319,14 @@ class TheMovieDB:
 
     def get_movie_details_by_id(self, movie_id):
         """
-        Summary:
-            Récupère les détails d'un film en utilisant son ID.
+            Summary:
+                Récupère les détails d'un film en utilisant son ID.
 
-        Args:
-            movie_id (int): L'ID du film que l'utilisateur souhaite récupérer.
+            Args:
+                movie_id (int): L'ID du film que l'utilisateur souhaite récupérer.
 
-        Returns:
-            dict: Un dictionnaire contenant les détails complets du film.
+            Returns:
+                dict: Un dictionnaire contenant les détails complets du film.
         """
         
         try:
@@ -355,6 +354,135 @@ class TheMovieDB:
                     "error": "Aucun résultat trouvé"
                 }
             return jsonify(response), 404
+        except Exception as e:
+            print(f"Erreur inattendue 65 : {e}")
+            response = {
+                "status": "500",
+                "error": "Erreur serveur distant"
+            }
+            return jsonify(response), 500
+
+    def get_movies_horror(self):
+        """
+            Retourne les films français.
+        """
+        
+        params = {
+            "with_genres": "27",
+        }
+        
+        endPoint = "/discover/movie"
+            
+        try:
+            api_response = self.get_api_response(endPoint, params)    
+    
+            if api_response:
+                extracted_data = self.extract_movie_data(api_response)
+   
+                response = {
+                    "status": "200",
+                    "message": "Voici les derniers films français.",
+                    "data": extracted_data
+                }
+                
+                return jsonify(response), 200
+            else:
+                response = {
+                    "status": "404",
+                    "error": "Aucun résultat trouvé"
+                }
+            return jsonify(response), 404
+        
+        except Exception as e:
+            print(f"Erreur inattendue 65 : {e}")
+            response = {
+                "status": "500",
+                "error": "Erreur serveur distant"
+            }
+            return jsonify(response), 500
+      
+    def get_movies_by_popularity(self):
+        """
+            Retournes les films les plus populaires
+        """
+        
+        params = {
+            "sort_by": "popularity.desc",
+        }
+        
+        endPoint = "/discover/movie"
+            
+        try:
+            api_response = self.get_api_response(endPoint, params)    
+    
+            if api_response:
+                extracted_data = self.extract_movie_data(api_response)
+   
+                response = {
+                    "status": "200",
+                    "message": "Voici les derniers films français.",
+                    "data": extracted_data
+                }
+                
+                return jsonify(response), 200
+            else:
+                response = {
+                    "status": "404",
+                    "error": "Aucun résultat trouvé"
+                }
+            return jsonify(response), 404
+        
+        except Exception as e:
+            print(f"Erreur inattendue 65 : {e}")
+            response = {
+                "status": "500",
+                "error": "Erreur serveur distant"
+            }
+            return jsonify(response), 500
+        
+    def get_movies_now_playing(self):
+        """
+            Récupère les films actuellement en salle.
+        """
+        
+        # Calcul des dates pour la plage souhaitée
+        date_actuelle = datetime.datetime.now()
+        date_debut = datetime.datetime(date_actuelle.year, 1, 1)
+        date_fin = datetime.datetime(date_actuelle.year, 12, 31)
+
+        # Formatage des dates au format YYYY-MM-DD
+        date_debut_formattee = date_debut.strftime('%Y-%m-%d')
+        date_fin_formattee = date_fin.strftime('%Y-%m-%d')
+        params = {
+            'release_date.gte': date_debut_formattee,
+            'release_date.lte': date_fin_formattee,
+            'sort_by': 'release_date.desc'
+        }
+        
+        # Le endPoint de la requête
+        endPoint = "/movie/now_playing"
+            
+        try:
+            # Appel à la méthode de classe pour effectuer la requête API avec le paramètre indiqué plus haut
+            api_response = self.get_api_response(endPoint, params)    
+    
+            if api_response:
+                extracted_data = self.extract_movie_data(api_response)
+   
+                response = {
+                    "status": "200",
+                    "message": "Voici les derniers films français.",
+                    "data": extracted_data
+                }
+                
+                return jsonify(response), 200
+            else:
+                response = {
+                    "status": "404",
+                    "error": "Aucun résultat trouvé"
+                }
+            return jsonify(response), 404
+        
         except Exception as e:
             print(f"Erreur inattendue 65 : {e}")
             response = {

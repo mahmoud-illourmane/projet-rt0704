@@ -300,3 +300,38 @@ def api_themoviedb_get_movie_details():
         "status": "405",
         "error": "Vous devez utiliser une requête GET pour cette route."
     })
+    
+@app.route('/api/themoviedb/get/fast-search', methods=['GET'])
+def api_themoviedb_get_fast_search():
+    if request.method == 'GET':
+        operationId = int(request.args.get('operationId'))
+        if operationId not in [1, 2, 3]:
+            return jsonify({
+                "status": "422",
+                "error": "Le choix n'est pas reconnu."
+            }), 422
+        
+        data = {
+            "operationId": operationId
+        }
+        
+        api_url = f"{server_back_end_url}/api/themoviedb/get/fast-search"
+        
+        try:
+            # envoi les données au serveur en utilisant une requête PATCH
+            response = requests.get(api_url, params=data)
+            
+            # Vérifie si la réponse du serveur distant est réussie
+            if response.status_code == 200:
+                return response.json()
+            
+        except Exception as e:
+            return jsonify({
+                "status": "500",
+                "error": str(e)
+            }), 500
+            
+    return jsonify({
+        "status": "405",
+        "error": "Vous devez utiliser une requête GET pour cette route."
+    }), 405
