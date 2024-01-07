@@ -38,6 +38,8 @@ function updateSearchInput() {
 }
 
 $(document).ready(function() {
+    stopLoadingAnimation();
+
     updateSearchInput();
     $('.spinner-border').addClass('d-none');
     var btnSubmitSearch = $('#btn-submit-search');

@@ -1,3 +1,9 @@
+from app import app                             # Importation du fichier de configuration Flask
+from flask import jsonify, request
+import json, base64
+from src.classes.movie import Movie             # Importation de la classe Movie
+from src.classes.themoviedb import TheMovieDB   # Importation de la classe TheMovieDB
+
 """
 |
 |   This file contains the REST API routes for the application.
@@ -6,18 +12,6 @@
 |   Date: December 20, 2023
 |
 """
-
-# Importation du fichier de configuration Flask
-from app import app
-
-from flask import jsonify, request
-import json, base64
-
-# Importation de la classe Movie
-from src.classes.movie import Movie
-
-# Importation de la classe TheMovieDB
-from src.classes.themoviedb import TheMovieDB
 
 """
 |   ===============

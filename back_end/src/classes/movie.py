@@ -1,26 +1,10 @@
-# Permet d'utiliser le nom de la classe en tant que type dans les annotations de type
-from __future__ import annotations
-
-# Importation pour la manipulation de fichiers JSON
-import json
-
-# Importation pour la manipulation de données base64
-import base64
-
-# Importation pour la gestion des dates et heures
-import datetime
-
-# Importation du module Flask pour les applications web
-from flask import Flask
-
-# Importation pour les opérations sur les fichiers et les répertoires
-import os
-
-# Importation pour les expressions régulières
-import re
-
-# Importation du package jsonify de flask
-from flask import jsonify
+from __future__ import annotations      # Permet d'utiliser le nom de la classe en tant que type dans les annotations de type
+import json                             # Importation pour la manipulation de fichiers JSON
+import base64                           # Importation pour la manipulation de données base64
+import datetime                         # Importation pour la gestion des dates et heures
+import os                               # Importation pour les opérations sur les fichiers et les répertoires
+import re                               # Importation pour les expressions régulières
+from flask import jsonify               # Importation du package jsonify de flask
 
 """
 |
@@ -28,6 +12,7 @@ from flask import jsonify
 |   DATE 12-22-23 US DATE
 |
 """
+
 class Movie:
     """
     Classe représentant un film avec ses données.

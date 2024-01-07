@@ -1,5 +1,5 @@
 from __future__ import annotations
-from flask import jsonify  # Permet d'utiliser le nom de la classe en tant que type dans les annotations de type
+from flask import jsonify           # Permet d'utiliser le nom de la classe en tant que type dans les annotations de type
 import requests
 
 """

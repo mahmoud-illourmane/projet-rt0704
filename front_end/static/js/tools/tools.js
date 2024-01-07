@@ -4,7 +4,7 @@
  |  AUTHOR: MAHMOUD ILLOURMANE
  |  DATE: 12-23-23 US DATE
  | 
- */
+*/
 
 // Toats IDs
 var liveToastMsgServer = $('#liveToastMsgServer');                      
@@ -22,13 +22,13 @@ function topFunction() {
  * Cette méthode permet d'arrêter l'animation de préchargement des données.
  */
 function stopLoadingAnimation() {
-    // Fait disparaître progressivement l'élément avec la classe 'spinner' en 200 ms
-    spinner.fadeOut(200);
+    // Fait disparaître progressivement l'élément contenu dans le div avec la classe 'spinner' en 200 ms
+    $('#loading-animation').fadeOut(200);
 
     // Fait disparaître progressivement les éléments avec la classe 'glowDivs' en 200 ms
     // Une fois que la disparition est terminée, affiche progressivement l'élément avec la classe 'pageContent' en 200 ms
-    glowDivs.fadeOut(200).promise().done(function() {
-        pageContent.fadeIn(200);
+    $('.glow-div').fadeOut(200).promise().done(function() {
+        $('.body').fadeIn(200);
     });
 }
 

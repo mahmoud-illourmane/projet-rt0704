@@ -18,9 +18,8 @@ server_back_end_url = app.config['SERVER_BACK_END_URL']
 @app.route('/api/get-movies/index', methods=['GET'])
 def getMoviesIndex():
     """
-        Récupère tous les films pour l'affichage dans la page d'accueil.
-
-        Cette route permet de récupérer la liste complète des films depuis une URL d'API sur le serveur back-end.
+        Summary:
+            Cette route permet de récupérer la liste complète des films depuis une URL d'API sur le serveur back-end.
 
         Returns:
             JSON: Une réponse JSON contenant la liste des films récupérée depuis l'URL distante.

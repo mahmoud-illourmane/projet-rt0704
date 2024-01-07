@@ -76,6 +76,7 @@
         border-radius: 50%;
         padding: 10px;
         text-decoration: none;
+        cursor: pointer;
     }
 
     /* ScrollTop */
@@ -171,7 +172,8 @@
             align-items: center !important;
         }
     /*== END/Navbar ==*/
-/*==== Const/End ====*/
+
+/*==== END/CONST ====*/
 
 /*==== Header ====*/
 

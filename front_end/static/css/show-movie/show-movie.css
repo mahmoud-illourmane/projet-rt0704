@@ -8,6 +8,15 @@
     }
 /*==== END/CONSTS ====*/
 
+.movie {
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
 
 img {
     border-radius: 10px;
@@ -19,8 +28,6 @@ img {
     gap: 50px;
     align-items: center;
 }
-
-
 
 /*Tablettes*/
 @media all  and (min-width: 601px) and (max-width: 1023px){
