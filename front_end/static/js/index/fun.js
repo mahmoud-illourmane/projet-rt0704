@@ -46,7 +46,6 @@ var modalAddMovie = $('#modalAddMovie');
      * Cette méthode sert à récupérer les films d'un utilisateur et à les afficher sur la page d'accueil
      */
     function loadMoviesIndex() {    
-        stopLoadingAnimation();
         $.ajax({
             url: 'api/get-movies/index', 
             method: 'GET',
