@@ -205,6 +205,29 @@ $(document).ready(function() {
         });
     });
 
+    /*== Fast Search ==*/
+        $('#recent-release').click(function() {
+            sendAjaxRequestFastSearch(1);
+        });
+
+        $('#bests-notations').click(function() {
+            sendAjaxRequestFastSearch(2);
+        });
+
+        $('#fr-movies').click(function() {
+            sendAjaxRequestFastSearch(3);
+        });
+
+        function sendAjaxRequestFastSearch(operationId) {
+            console.log(operationId);
+            // Sélection du conteneur des résultats de recherche
+            let searchResults = $("#searchResults");
+            // Efface le contenu préalable du conteneur
+            searchResults.empty();
+            searchResults.text(operationId);
+        }
+    /*== END/Fast Search ==*/
+
     // Gestionnaire d'évenement qui sert à envoyer la requête pour afficher les détails d'un film
     $(document).on('click', '.movie_click', function() {
         var $link = $(this);

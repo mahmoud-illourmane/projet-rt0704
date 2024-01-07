@@ -28,8 +28,32 @@
                 <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                 Rechercher
             </button>
-            
         </form>
+
+        <div class="fast-search mt-3">
+            <h4>Vous pouvez utiliser les recherches déjà définies</h4>
+            <div class="fast-search-btns">
+                <div class="fast-search-btn">
+                    <button id="recent-release" class="btn btn-primary btn-rounded btn-sm d-flex gap-2">
+                        <span class="material-icons">movie</span> 
+                        Dernières sorties
+                    </button>
+                </div>
+                <div class="fast-search-btn">
+                    <button id="bests-notations" class="btn btn-success btn-rounded btn-sm d-flex gap-2">
+                        <span class="material-icons">theaters</span> 
+                        Les mieux notés
+                    </button>
+                </div>
+                <div class="fast-search-btn">
+                    <button id="fr-movies" class="btn btn-warning btn-rounded btn-sm d-flex gap-2">
+                        <span class="material-icons">theater_comedy</span> 
+                        Films français
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div id="searchResults" class="mt-4 movies">
             <!-- Les résultats de la recherche seront affichés ici en utilisant jQuery -->
         </div>
