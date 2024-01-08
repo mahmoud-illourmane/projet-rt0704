@@ -71,19 +71,29 @@ $(document).on("DOMContentLoaded", function() {
                         if (response.status === "200") {
                             showToastMessage(response.message, "text-success");
         
-                            $form[0].reset(); // Réinitialiser le formulaire pour effacer son contenu
+                            $form[0].reset();       // Réinitialiser le formulaire pour effacer son contenu
                             $('.synopsis').val(''); // Réinitialiser le champ .synopsis à vide
         
-                            updateCharCount(); // Mettre à jour le compteur de caractères restants
-                            loadMoviesIndex(); // Rappel de la méthode pour réafficher les films avec le nouveau
+                            updateCharCount();      // Mettre à jour le compteur de caractères restants
+                            loadMoviesIndex();      // Rappel de la méthode pour réafficher les films avec le nouveau
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        console.log("Statut de l'erreur : ", textStatus);
-                        console.log("Texte de l'erreur : ", errorThrown);
-                        console.log("Réponse du serveur : ", jqXHR.responseText);
-                        console.log("Code d'état : ", jqXHR.status);
-                        showToastMessage("Une erreur est survenue : " + textStatus + " - " + errorThrown, "text-danger");
+                        console.log("[modals.js] Statut de l'erreur : ", textStatus);
+                        console.log("[modals.js] Texte de l'erreur : ", errorThrown);
+                        console.log("[modals.js] Réponse du serveur : ", jqXHR.responseText);
+                        console.log("[modals.js] Code d'état : ", jqXHR.status);
+                    
+                        // Afficher le message d'erreur renvoyé par Flask
+                        let responseJson = JSON.parse(jqXHR.responseText);
+                        
+                        if (jqXHR.status === 500) {
+                            let errorMessage = "Erreur interne du serveur : " + responseJson.error;
+                            showToastMessage(errorMessage, "text-danger");
+                        } else {
+                            let errorMessage = "Erreur : " + responseJson.error;
+                            showToastMessage(errorMessage, "text-danger");
+                        }
                     }
                 });
             }
@@ -134,17 +144,35 @@ $(document).on("DOMContentLoaded", function() {
          */
         function loadMovies() {
             $.ajax({
-                url: '/api/get-movies/gestions',     // Route coté front-end
+                url: '/api/get-movies/gestions',  
                 method: 'GET',
                 dataType: 'json',
-                success: function(data) {
-                    moviesData = data.movies;        // Stockage des films dans le tableau
-                    displayMoviesForFullScreen();   
-                    displayMoviesForSmartphone();
-                    nbTotalMovie.text('Nombre total de films : ' + data.nb_movies);
+                success: function(response) {
+                    if(response.status == "200") {
+                        moviesData = response.movies;        // Stockage des films dans le tableau
+                        displayMoviesForFullScreen();   
+                        displayMoviesForSmartphone();
+                        nbTotalMovie.text('Nombre total de films : ' + response.nb_movies);
+                    }else {
+                        showToastMessage("Une erreur s'est produite pendant le chargement des films.", "text-danger");
+                    }
                 },
-                error: function(error) {
-                    showToastMessage(error, "text-danger");
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log("[modals.js] Statut de l'erreur : ", textStatus);
+                    console.log("[modals.js] Texte de l'erreur : ", errorThrown);
+                    console.log("[modals.js] Réponse du serveur : ", jqXHR.responseText);
+                    console.log("[modals.js] Code d'état : ", jqXHR.status);
+                
+                    // Afficher le message d'erreur renvoyé par Flask
+                    let responseJson = JSON.parse(jqXHR.responseText);
+                    
+                    if (jqXHR.status === 500) {
+                        let errorMessage = "Erreur interne du serveur : " + responseJson.error;
+                        showToastMessage(errorMessage, "text-danger");
+                    } else {
+                        let errorMessage = "Erreur : " + responseJson.error;
+                        showToastMessage(errorMessage, "text-danger");
+                    }
                 }
             });
         }
@@ -290,10 +318,7 @@ $(document).on("DOMContentLoaded", function() {
                             loadMovies();
                             loadMoviesIndex();
                         }
-                        else if(response.status == "303") {
-                            showToastMessage(response.error, "text-danger");
-                        }
-                        else if(response.status == "404") {
+                        else {
                             showToastMessage(response.error, "text-danger");
                         }
                     },
@@ -302,7 +327,16 @@ $(document).on("DOMContentLoaded", function() {
                         console.log("Texte de l'erreur : ", errorThrown);
                         console.log("Réponse du serveur : ", jqXHR.responseText);
                         console.log("Code d'état : ", jqXHR.status);
-                        showToastMessage("Une erreur est survenue : " + textStatus + " - " + errorThrown, "text-danger");
+                    
+                        let responseJson = JSON.parse(jqXHR.responseText);
+
+                        if (jqXHR.status == 500) {
+                            let errorMessage = "Erreur interne du serveur : " + responseJson.error;
+                            showToastMessage(errorMessage, "text-danger");
+                        }else{
+                            let errorMessage = "Erreur : " + responseJson.error;
+                            showToastMessage(errorMessage, "text-danger");
+                        }
                     }
                 });
             }

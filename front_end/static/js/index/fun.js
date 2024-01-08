@@ -49,7 +49,7 @@ var modalAddMovie = $('#modalAddMovie');
         $.ajax({
             url: 'api/get-movies/index', 
             method: 'GET',
-            dataType: 'json', // Cette option indique le type de données que vous attendez de recevoir en réponse du serveur
+            dataType: 'json', // Cette option indique le type de données que j'attends de recevoir en réponse du serveur
             success: function(response) {
                 if(response.status == "200") {
                     let moviesContainer = $('.movies');
@@ -100,7 +100,7 @@ var modalAddMovie = $('#modalAddMovie');
                             // Ajout du HTML généré au conteneur de films
                             moviesContainer.append(movieHtml);
                         });
-                        // Arrête l'animation de chargement et affichez le contenu
+                        // Arrête l'animation de chargement
                         stopLoadingAnimation();
                     } else {
                         stopLoadingAnimation();
@@ -109,14 +109,20 @@ var modalAddMovie = $('#modalAddMovie');
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                console.log("Statut de l'erreur 55: ", textStatus);
-                console.log("Texte de l'erreur : ", errorThrown);
-                console.log("Réponse du serveur : ", jqXHR.responseText);
-                console.log("Code d'état : ", jqXHR.status);
-    
-                // Affiche un message d'erreur à l'utilisateur
-                showToastMessage("Une erreur est survenue : " + textStatus + " - " + errorThrown, "text-danger");
-                stopLoadingAnimation();
+                console.log("[fun.js] Statut de l'erreur : ", textStatus);
+                console.log("[fun.js] Texte de l'erreur : ", errorThrown);
+                console.log("[fun.js] Réponse du serveur : ", jqXHR.responseText);
+                console.log("[fun.js] Code d'état : ", jqXHR.status);
+                
+                let responseJson = JSON.parse(jqXHR.responseText);
+
+                if (jqXHR.status == 500) {
+                    let errorMessage = "Erreur interne du serveur : " + responseJson.error;
+                    showToastMessage(errorMessage, "text-danger");
+                }else{
+                    let errorMessage = "Erreur : " + responseJson.error;
+                    showToastMessage(errorMessage, "text-danger");
+                }
             }
         });
     }   
@@ -128,7 +134,7 @@ var modalAddMovie = $('#modalAddMovie');
         $(document).on('click', 'a[id^="showMore"]', function (event) {
             event.preventDefault(); // Empêche la navigation par défaut
 
-            // Récupérez les données du film depuis les attributs data-* du lien
+            // Récupération des données du film depuis les attributs data-* du lien
             var movieId = $(this).data('movie-id');
             var category = $(this).data('movie-category');
             var movieName = $(this).data('movie-name');

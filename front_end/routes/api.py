@@ -39,11 +39,10 @@ def getMoviesIndex():
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
-            print(f"Erreur de requête vers l'URL distante : {e}")
-            
+            error_message = f"Erreur de requête vers l'URL distante : {str(e)}"
             return jsonify({
                 "status": "500", 
-                "message": "Erreur de communication avec l'URL distante"
+                "error": error_message
             }), 500
             
     return jsonify({
@@ -76,11 +75,11 @@ def getMoviesGestions():
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
-            print(f"Erreur de requête vers l'URL distante : {e}")
+            error_message = f"Erreur de requête vers l'URL distante : {str(e)}"
             
             return jsonify({
                 "status": "500", 
-                "message": "Erreur de communication avec l'URL distante"
+                "error": error_message
             }), 500
             
     return jsonify({

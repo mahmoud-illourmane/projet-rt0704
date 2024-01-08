@@ -109,11 +109,12 @@ def get_movies_gestions():
             "nb_movies": nb_movies,
             "movies": movies
         }
-        
         return jsonify(response), 200
     except FileNotFoundError:
-        # Si le fichier n'est pas trouvé, je renvoye une réponse avec un message d'erreur
-        return jsonify({"error": "Le fichier de films n'a pas été trouvé"}), 404
+        return jsonify({
+            "status": "404",
+            "error": "Le fichier de films n'a pas été trouvé"
+        }), 404
 
 @app.route('/api/add-movie', methods=['POST'])
 def addMovie():
@@ -146,10 +147,10 @@ def addMovie():
 
             return response
         except Exception as e:
+            error_message = f"Erreur de requête vers l'URL distante : {str(e)}"
             return jsonify({
                 "status": "error",
-                "message": "Erreur interne du serveur lors de l'ajout du film.",
-                "error": str(e)
+                "error": error_message
             }), 500
 
 @app.route('/api/delete-movie', methods=['DELETE'])

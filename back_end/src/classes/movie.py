@@ -126,13 +126,13 @@ class Movie:
     @staticmethod
     def save_movie(movie: 'Movie') -> str:
         """
-        Sauvegarde les données du film dans un fichier JSON.
+            Sauvegarde les données du film dans un fichier JSON.
 
-        Args:
-            movie (Movie): L'instance de Movie à sauvegarder.
+            Args:
+                movie (Movie): L'instance de Movie à sauvegarder.
 
-        Returns:
-            str: Une réponse JSON indiquant le statut de la sauvegarde.
+            Returns:
+                str: Une réponse JSON indiquant le statut de la sauvegarde.
         """
         try:
             # Essayez d'ouvrir le fichier 'storage/movies.json' en mode lecture et écriture
@@ -154,9 +154,10 @@ class Movie:
                     # Attribution de l'ID 1 au film s'il s'agit du premier film ajouté
                     movie.id = 1
             except Exception as e:
+                error_message = f"Erreur lors de l'ouverture du fichier movies.json : {str(e)}"
                 return jsonify({
                         "status": "500",
-                        "error": "Erreur lors de la création du fichier"
+                        "error": error_message
                     }), 500
 
         return jsonify({
