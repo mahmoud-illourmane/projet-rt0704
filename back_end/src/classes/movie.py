@@ -135,7 +135,7 @@ class Movie:
                 str: Une réponse JSON indiquant le statut de la sauvegarde.
         """
         try:
-            # Essayez d'ouvrir le fichier 'storage/movies.json' en mode lecture et écriture
+            # ouverture le fichier 'storage/movies.json' en mode lecture et écriture
             with open('storage/movies.json', 'r+') as file:
                 data = json.load(file)              # Chargement du contenu JSON du fichier dans la variable 'data'
                 movies = data["movies"]             # Accès à la liste 'movies' dans 'data'
@@ -146,7 +146,7 @@ class Movie:
                 json.dump(data, file, indent=4)     # Écriture du contenu mis à jour dans le fichier JSON avec une mise en forme de 4 espaces
         except FileNotFoundError:
             try:
-                # Si le fichier 'storage/movies.json' n'existe pas, créez-le en mode écriture
+                # Si le fichier 'storage/movies.json' n'existe pas, je le crée en mode écriture
                 with open('storage/movies.json', 'w') as file:  
                     # Créeation d'un nouveau fichier JSON avec un compteur 'nb_movies' à 1
                     # et une liste 'movies' contenant les données du film en cours

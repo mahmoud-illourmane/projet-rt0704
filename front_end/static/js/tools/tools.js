@@ -106,7 +106,7 @@ function stopLoadingAnimation() {
     /**
      * Cette fonction récupère la valeur d'un cookie en fonction de son nom.
      *
-     * @param {string} name - Le nom du cookie que vous souhaitez récupérer.
+     * @param {string} name - Le nom du cookie que je souhaite récupérer.
      * @returns {string|null} La valeur du cookie ou null si le cookie n'existe pas.
      */
     function getCookie(name) {
@@ -119,20 +119,20 @@ function stopLoadingAnimation() {
         // Recherche du cookie dans la chaîne de cookies
         var begin = dc.indexOf("; " + prefix);
 
-        // Si le cookie n'a pas été trouvé avec "; " comme préfixe, recherchez le début sans "; "
+        // Si le cookie n'a pas été trouvé avec "; " comme préfixe, je recherche le début sans "; "
         if (begin == -1) {
             begin = dc.indexOf(prefix);
 
-            // Si le cookie n'a pas été trouvé du tout, renvoyez null
+            // Si le cookie n'a pas été trouvé du tout, renvoye null
             if (begin != 0) return null;
         } else {
-            // Si le cookie a été trouvé avec "; " comme préfixe, ajustez le point de départ
+            // Si le cookie a été trouvé avec "; " comme préfixe, ajuste le point de départ
             begin += 2;
 
             // Recherche de la fin du cookie
             var end = document.cookie.indexOf(";", begin);
 
-            // Si la fin du cookie n'est pas trouvée, prenez la fin de la chaîne de cookies
+            // Si la fin du cookie n'est pas trouvée, prendre la fin de la chaîne de cookies
             if (end == -1) {
                 end = dc.length;
             }

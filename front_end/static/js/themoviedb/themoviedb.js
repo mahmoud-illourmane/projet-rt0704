@@ -5,10 +5,10 @@ function updateSearchInput() {
     var searchType = $('#searchType').val();
     var searchInputContainer = $('#searchInputContainer');
 
-    // Effacez les champs de saisie actuels
+    // Efface les champs de saisie actuels
     searchInputContainer.empty();
 
-    // Ajoutez les champs de saisie en fonction du type de recherche
+    // Ajoute les champs de saisie en fonction du type de recherche
     if (searchType === 'name') {
         searchInputContainer.append(`
             <label class="mt-3">2-Entrez le nom du film</label>
