@@ -39,6 +39,11 @@
     }
 /*== END/Navbar ==*/
 
+/*== Footer ==*/    
+    .footer-container h3, p {
+        color : #e3e3e3 !important; 
+    }
+/*== END/Footer ==*/
 
 /*Tablettes*/
 @media all  and (min-width: 601px) and (max-width: 1023px){
