@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
   front_end:
     # build: . // Docker Compose recherche un Dockerfile dans le répertoire actuel
