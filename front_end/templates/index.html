@@ -28,20 +28,20 @@
                         </div>
 
                         <form class="g-3 needs-validation" id="formAddMovie" enctype="multipart/form-data" novalidate>
-                            <div class="input mb-3 col-md-5">
+                            <div class="input mb-3 col-md-6">
                                 <label for="validationCustom01" class="form-label">Nom du film <strong class="color_7">*</strong></label>
                                 <input type="text" name="movie_name" class="form-control input" required>
                                 <div class="invalid-feedback color_7">Champ nécessaire</div>
                             </div>
 
-                            <div class="input mb-3 col-md-5">
+                            <div class="input mb-3 col-md-3">
                                 <label for="validationCustom02" class="form-label">Année de sortie <strong class="color_7">*</strong></label>
                                 <input type="number" name="year_of_creation" class="form-control input" required>
                                 <div class="invalid-feedback color_7">Champ nécessaire</div>
                             </div>
 
-                            <div class="input mb-3 col-md-5">
-                                <label for="validationCustom03" class="form-label">Réalisateur</label>
+                            <div class="input mb-3 col-md-7">
+                                <label for="validationCustom03" class="form-label">Réalisateur(s)</label>
                                 <input type="text" name="director" class="form-control input">
                             </div>
 
@@ -244,6 +244,6 @@
 {% endblock %}
 
 {% block jsScripts %}
-    <script src="{{ url_for('static', filename='js/index/fun.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/index/modals.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/videotheque/index/fun.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/videotheque/index/modals.js') }}"></script>
 {% endblock %}

@@ -1,5 +1,7 @@
 /*==== CONSTS ====*/
-    
+    .movie_click {
+        cursor: pointer;
+    }
 /*==== END/CONSTS ====*/
 
 .button-clicked {
@@ -90,6 +92,16 @@
     /*==== CONSTS ====*/
 
     /*==== END/CONSTS ====*/
+
+    /*== Movies ==*/
+        .movies {
+            justify-content: center;
+        }
+        .movie:hover {
+            transform: scale(1.0);
+        }
+    /*== END/Movies ==*/
+
 }
 
 /*Smartphones*/
@@ -101,6 +113,9 @@
     /*== Movies ==*/
         .movies {
             justify-content: center;
+        }
+        .movie:hover {
+            transform: scale(1.0);
         }
     /*== END/Movies ==*/
 
