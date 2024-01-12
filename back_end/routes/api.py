@@ -3,6 +3,7 @@ from flask import jsonify, request
 import json, base64
 from src.classes.movie import Movie             # Importation de la classe Movie
 from src.classes.themoviedb import TheMovieDB   # Importation de la classe TheMovieDB
+from src.classes.user import User               # Importation de la classe User
 
 """
 |
@@ -18,6 +19,43 @@ from src.classes.themoviedb import TheMovieDB   # Importation de la classe TheMo
 |   API REST ROUTES
 |   ===============
 """
+
+#
+#   Authentification
+#
+
+@app.route('/api/signUp', methods=['POST'])
+def signUp():
+    if request.method == 'POST':
+        try:
+            user_data = request.get_json()
+            
+            firstName = user_data.get('firstName')
+            email = user_data.get('email')
+            password = user_data.get('password')
+        
+            print('Je recois : ', firstName,' ', email, ' ', password)
+            
+            try:
+                new_user = User.register(email, password, firstName)
+                # return jsonify(new_user), 201
+                if 'status' in new_user and new_user['status'] == 201:
+                    return jsonify(new_user), 201
+                else:
+                    return jsonify(new_user), 409
+            except ValueError as e:
+                print(f"Une erreur est survenue : {e}")
+                response = {
+                    "status": 400,
+                    "message": str(e)
+                }
+                return jsonify(response), 400
+        except Exception as e:
+            error_message = f"Erreur de requête vers l'URL distante : {str(e)}"
+            return jsonify({
+                "status": 500,
+                "error": error_message
+            }), 500
 
 @app.route('/api/get-movies/index', methods=['GET'])
 def get_movies_index():

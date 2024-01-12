@@ -1,6 +1,15 @@
-from flask import render_template, request, abort
 from app import app
 from datetime import datetime
+import requests
+from flask import render_template, request, abort, redirect, url_for, flash, session
+
+from flask_login import LoginManager, login_user, login_required, logout_user
+import json
+
+from src.classes.user import User  
+
+# Accède à la variable globale depuis la configuration Flask
+server_front_end_url = app.config['SERVER_FRONT_END_URL']
 
 """
 |   This file contains all the routes for the frontend of this application.
@@ -9,7 +18,136 @@ from datetime import datetime
 |   Date: December 15, 2023
 """
 
+# Initialisation de LoginManager
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+#
+#   Authentification
+#
+
+# Rechargement de l'utilisateur
+@login_manager.user_loader
+def load_user(user_id):
+    user_info = session.get('user_info')
+    if user_info and user_id == user_info.get('id'):
+        return User(user_id, user_info.get('first_name'), user_info.get('email'))
+    return None
+
+
+@app.route('/signUp', methods=['GET', 'POST'])
+def signUp():
+    """
+    Summary:
+        Cette route renvoie une vue HTML permettant de s'inscrire.
+        Elle gère également le processus d'inscription.
+
+    Returns:
+            str: Une vue HTML.
+    """
+    
+    if request.method == 'GET':
+        return render_template('signIn-signUp/sigUp.html')
+    
+    elif request.method == 'POST':
+        firstName = request.form['firstName']
+        email = request.form['email']
+        password = request.form['password']
+        passwordConfirm = request.form['passwordConfirm']
+        
+        # Vérifie si les mots de passe correspondent
+        if password != passwordConfirm:
+            flash('Les mots de passe ne correspondent pas. Veuillez réessayer.')
+            return redirect(url_for('signUp')) 
+        
+        # Je forge les données de la requête pour le fichier api.py du serveur front 
+        # Ce n'est pas idéal..
+        data = {
+            "firstName": firstName,
+            "email": email,
+            "password": password
+        }
+        # Convertir le dictionnaire en une chaîne JSON
+        user_data = json.dumps(data)
+        # Spécification de l'en-tête "Content-Type" pour indiquer que vous envoyez du JSON
+        headers = {'Content-Type': 'application/json'}
+        api_url = f"{server_front_end_url}/api/signUp"
+        
+        try:
+            response = requests.post(api_url, data=user_data, headers=headers)
+            response.raise_for_status()
+            
+            # if response.status_code == 201:
+            #     response_data = response.json()
+                
+            #     print('DONNES :', response_data.get('first_name'), response_data.get('id'), response_data.get('email'))
+            #     first_name = response_data.get('first_name')
+            #     id = response_data.get('id')
+            #     email = response_data.get('email')
+            #     user = User(id, first_name, email)
+            #     login_user(user)
+            #     return redirect(url_for('index'))
+            
+            #     print("La requête a réussi (statut 201).")
+                
+            #     # Pour afficher le message contenu dans la réponse JSON
+                
+            #     message = response_data.get('message')
+            #     print(f"Message du serveur : {message}")
+            #     flash(message)
+            #     return redirect(url_for('login')) 
+            
+            if response.status_code == 201:
+                response_data = response.json()
+                user = User(response_data.get('id'), response_data.get('first_name'), response_data.get('email'))
+                login_user(user)
+                # Stocker les informations dans la session
+                session['user_info'] = {'id': user.id, 'first_name': user.first_name, 'email': user.email}
+                return redirect(url_for('index'))
+            elif response.status_code == 409:
+                flash("L'email est déjà utilisé.")
+                return redirect(url_for('signUp')) 
+            else:
+                flash("Une erreur s'est produite web.py.")
+                return redirect(url_for('signUp')) 
+        except requests.exceptions.RequestException as e:
+            error_message = f"Erreur de requête vers l'URL distante : {str(e)}"
+            flash(error_message)
+            return redirect(url_for('signUp')) 
+    abort(405)
+    
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        # Ici, envoie la requête à l'API du serveur back-end
+        username = request.form['username']
+        password = request.form['password']
+        response = requests.post('http://adresse_du_serveur_backend/login', json={'username': username, 'password': password})
+
+        if response.status_code == 200:
+            user_data = response.json()
+            if user_data['auth']:
+                user = User(user_data['user_id'])
+                login_user(user)
+                return redirect(url_for('protected_route'))
+        return 'Échec de la connexion'
+
+    return render_template('signIn-signUp/login.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash("Au revoir !")
+    return redirect(url_for('login'))
+
+#
+#   Application Web
+#
+
 @app.route('/', methods=['GET'])
+@login_required
 def index():
     """
     Summary:
@@ -23,6 +161,7 @@ def index():
     abort(405)
     
 @app.route('/edit-movie/<int:movie_id>', methods=['GET'])
+@login_required
 def editMovie(movie_id):
     """
         Affiche le formulaire d'édition pour un film spécifique.
@@ -58,6 +197,7 @@ def editMovie(movie_id):
     abort(405)
 
 @app.route('/show-movie', methods=['POST'])
+@login_required
 def showMovie():
     """
         Affiche les détails d'un film.

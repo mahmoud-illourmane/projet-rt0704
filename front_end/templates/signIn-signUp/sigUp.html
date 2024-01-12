@@ -1,0 +1,43 @@
+{% extends 'signIn-signUp/template.html' %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/signIn-signUp/signUp.css') }}">
+{% endblock %}
+
+{% block title %}
+    <title>Inscription</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <h1 class="text-center">Inscription</h1>
+        <div class="signUp-form">
+            <form class="mb-3" method="post" action="/signUp">
+                <div class="mb-3">
+                    <label for="inputEmail" class="form-label">Prénom <span class="color_7">*</span></label>
+                    <input type="text" class="form-control" name="firstName" id="inputFirstName" aria-describedby="firstNameHelp" required>
+                </div>
+                <div class="mb-3">
+                    <label for="inputEmail" class="form-label">Adresse mail <span class="color_7">*</span></label>
+                    <input type="email" class="form-control" name="email" id="inputEmail" aria-describedby="emailHelp" required>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Mot de passe <span class="color_7">*</span></label>
+                    <input type="password" class="form-control" name="password" id="inputPassword" required>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Cofirmer votre mot de passe <span class="color_7">*</span></label>
+                    <input type="password" class="form-control" name="passwordConfirm" id="inputPasswordConfirm" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Inscription</button>
+            </form>
+            <a href="login">J'ai déjà un compte</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block jsScripts %}
+    <script src="{{ url_for('static', filename='js/videotheque/show-movie/show-movie.js') }}"></script>
+{% endblock %}
+

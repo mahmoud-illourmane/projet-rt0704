@@ -412,43 +412,18 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
                         <li class="nav-item">
                             <div class="nav-item-nav-bar">
-                                <span class="material-icons nav-link-icon">movie</span>
-                                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#modalAddMovie">Ajouter un film</a>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="nav-item-nav-bar">
-                                <span class="material-icons nav-link-icon">manage_search</span>
-                                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#modalGestionsMovies">Gérer mes films</a>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="nav-item-nav-bar">
                                 <span class="material-icons nav-link-icon">api</span>
                                 <a class="nav-link" href="{{ url_for('themoviedb') }}">TheMovieDB</a>
                             </div>
                         </li>
-                        
                     </ul>
 
-                    <div class="d-flex gap-5">
-                        <div class="nav-item-nav-bar">
-                            
-                            <a type="button" class="btn btn-primary d-flex" href="{{ url_for('logout') }}">
-                                <span class="material-icons">logout</span>
-                                Déconnexion
-                            </a>
-                        </div>
-
-                        <div class="switcher-modes">
-                            <a id="mode-switcher">
-                                <i class="material-icons mode-switcher-icon dark-mode-icon">brightness_3</i>
-                                <i class="material-icons mode-switcher-icon light-mode-icon">wb_sunny</i>
-                            </a>
-                        </div>  
-                    </div>
+                    <div class="switcher-modes">
+                        <a id="mode-switcher">
+                            <i class="material-icons mode-switcher-icon dark-mode-icon">brightness_3</i>
+                            <i class="material-icons mode-switcher-icon light-mode-icon">wb_sunny</i>
+                        </a>
+                    </div>  
                 </div>
             </div>
         </nav>
@@ -456,19 +431,26 @@
 
     <!-- Le toast pour afficher les messages de la part du serveur -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="liveToastMsgServer" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <div class="toast-header-custom">
-                    <img class="nav-bar-logo" src="{{ url_for('static', filename='images/logo/logo.webp') }}" alt="" width="25">
-                    <strong class="me-auto">Message</strong>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div id="liveToastMsgServer" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <div class="toast-header-custom">
+                            <img class="nav-bar-logo" src="{{ url_for('static', filename='images/logo/logo.webp') }}" alt="" width="25">
+                            <strong class="me-auto">Message</strong>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-                <p id="liveToastMsgServerContent"></p>
-            </div>
-        </div>
+            {% endif %}
+        {% endwith %}
     </div>
+
 
     <div class="body-content">
         {% block content %}{% endblock %}
