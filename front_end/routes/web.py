@@ -78,26 +78,6 @@ def signUp():
             response = requests.post(api_url, data=user_data, headers=headers)
             response.raise_for_status()
             
-            # if response.status_code == 201:
-            #     response_data = response.json()
-                
-            #     print('DONNES :', response_data.get('first_name'), response_data.get('id'), response_data.get('email'))
-            #     first_name = response_data.get('first_name')
-            #     id = response_data.get('id')
-            #     email = response_data.get('email')
-            #     user = User(id, first_name, email)
-            #     login_user(user)
-            #     return redirect(url_for('index'))
-            
-            #     print("La requête a réussi (statut 201).")
-                
-            #     # Pour afficher le message contenu dans la réponse JSON
-                
-            #     message = response_data.get('message')
-            #     print(f"Message du serveur : {message}")
-            #     flash(message)
-            #     return redirect(url_for('login')) 
-            
             if response.status_code == 201:
                 response_data = response.json()
                 user = User(response_data.get('id'), response_data.get('first_name'), response_data.get('email'))
@@ -117,21 +97,26 @@ def signUp():
             return redirect(url_for('signUp')) 
     abort(405)
     
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/logIn', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         # Ici, envoie la requête à l'API du serveur back-end
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
-        response = requests.post('http://adresse_du_serveur_backend/login', json={'username': username, 'password': password})
+        
+        headers = {'Content-Type': 'application/json'}
+        api_url = f"{server_front_end_url}/api/logIn"
+        response = requests.post(api_url, json={'email': email, 'password': password}, headers=headers)
 
         if response.status_code == 200:
-            user_data = response.json()
-            if user_data['auth']:
-                user = User(user_data['user_id'])
-                login_user(user)
-                return redirect(url_for('protected_route'))
-        return 'Échec de la connexion'
+            response_data = response.json()
+            user = User(response_data.get('id'), response_data.get('first_name'), response_data.get('email'))
+            login_user(user)
+            # Stocker les informations dans la session
+            session['user_info'] = {'id': user.id, 'first_name': user.first_name, 'email': user.email}
+            return redirect(url_for('index'))
+        flash("L'email ou le mot de passe est incorrect.")
+        return redirect(url_for('login'))
 
     return render_template('signIn-signUp/login.html')
 

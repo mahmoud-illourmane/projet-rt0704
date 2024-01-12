@@ -61,10 +61,22 @@ class User:
     @staticmethod
     def authenticate_user(email, password):
         users_file_path = 'storage/users.json'
+        
         if os.path.exists(users_file_path):
             with open(users_file_path, 'r') as file:
                 users = json.load(file)
-                for user in users.values():
-                    if user['email'] == email and user['password'] == password:
-                        return True
-        return False
+                for user_id, user_data in users.items():
+                    if user_data['email'] == email and user_data['password'] == password:
+                        # Les identifiants sont corrects, retournez les informations de l'utilisateur
+                        return {
+                            'status': 200,
+                            'id': user_id,
+                            'first_name': user_data['first_name'],
+                            'email': user_data['email']
+                        }
+        return {
+            'status': 401,
+            'id': user_id,
+            'first_name': user_data['first_name'],
+            'email': user_data['email']
+        }

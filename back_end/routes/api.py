@@ -57,6 +57,38 @@ def signUp():
                 "error": error_message
             }), 500
 
+@app.route('/api/logIn', methods=['POST'])
+def logIn():
+    if request.method == 'POST':
+        try:
+            user_data = request.get_json()
+            
+            email = user_data.get('email')
+            password = user_data.get('password')
+        
+            print('Je recois 2: ', email, ' ', password)
+            
+            try:
+                new_user = User.authenticate_user(email, password)
+                # return jsonify(new_user), 201
+                if 'status' in new_user and new_user['status'] == 200:
+                    return jsonify(new_user), 200
+                else:
+                    return jsonify(new_user), 401
+            except ValueError as e:
+                print(f"Une erreur est survenue : {e}")
+                response = {
+                    "status": 400,
+                    "message": str(e)
+                }
+                return jsonify(response), 400
+        except Exception as e:
+            error_message = f"Erreur de requête vers l'URL distante : {str(e)}"
+            return jsonify({
+                "status": 500,
+                "error": error_message
+            }), 500
+
 @app.route('/api/get-movies/index', methods=['GET'])
 def get_movies_index():
     """

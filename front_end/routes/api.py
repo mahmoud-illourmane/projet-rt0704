@@ -86,7 +86,68 @@ def handleSignUp():
     }
     return jsonify(response), 405
     
-
+@app.route('/api/logIn', methods=['POST'])
+def handleLogIn():
+    """_summary_
+    Cette méthode se charge d'authentifier un utilisateur
+    
+    Returns:
+        _type_: une réponse Json
+    """
+    
+    if request.method == 'POST':                                                # Je vérifi que la requête a bien été faite avec POST
+        try:
+            user_data = request.get_json()                                      # Récupération des données JSON reçus
+            data_register = {                                                   # Je forge les données à envoyer
+                "email": user_data.get('email'),
+                "password": user_data.get('password')
+            }
+        except Exception as e:                                                  # Gestion de l'exception
+            error_message = f"Erreur de requête vers l'URL distante : {str(e)}"
+            return jsonify({                                                    # Je retourne un message d'erreur
+                "status": 500,
+                "error": error_message
+            }), 500
+        
+        try:
+            api_url = f"{server_back_end_url}/api/logIn"                        # Préparation de l'url du serveur distant
+            response = requests.post(api_url, json=data_register)               # Envoi des données au serveur sitant en utilisant une requête POST
+            
+                                                                                # Gestion de la réponse du serveur Backend 
+            if response.status_code == 200:                                     # 200 indique que l'inscription s'est bien déroulé                          
+                response_data = response.json()
+                id = response_data.get('id')
+                first_name = response_data.get('first_name')
+                email = response_data.get('email')
+                return jsonify({
+                    "status": 200,
+                    "id" : id,
+                    "email" : email,
+                    "first_name" : first_name,
+                }), 200
+            elif response.status_code == 500:
+                return jsonify({
+                    "status": 500,
+                    "error" : "error serveur frontend"
+                }), 500
+            else:
+                return jsonify({
+                    "status": 401,
+                    "error" : "L'email ou le mot de passe est incorrect."
+                }), 401
+        except requests.exceptions.RequestException as e:
+            print(f"Erreur de requête vers l'API du back-end : {e}")
+            
+            return jsonify({
+                "status": 500, 
+                "message": "Erreur de communication avec l'API du back-end"
+            }), 500
+            
+    response = {
+            "status": 405,
+            "error": "Vous devez utiliser une requête POST pour cette route."
+    }
+    return jsonify(response), 405
 
 @app.route('/api/get-movies/index', methods=['GET'])
 def getMoviesIndex():
