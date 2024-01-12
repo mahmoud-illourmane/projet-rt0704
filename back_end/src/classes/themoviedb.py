@@ -1,5 +1,5 @@
-from __future__ import annotations
-from flask import jsonify           # Permet d'utiliser le nom de la classe en tant que type dans les annotations de type
+from __future__ import annotations  # Permet d'utiliser le nom de la classe en tant que type dans les annotations de type
+from flask import jsonify          
 import requests, datetime
 
 """
@@ -32,7 +32,7 @@ class TheMovieDB:
 
     """
     
-    # Mapping des clés de données de l'API aux noms de clés souhaités
+    # Mapping des clés de données de l'API aux noms de clés que je souhaites
     key_mapping = {
         'id': 'id',
         'runtime': 'runtime', 
@@ -364,7 +364,17 @@ class TheMovieDB:
 
     def get_movies_horror(self):
         """
-            Retourne les films français.
+            Retourne les films d'horreur français.
+
+            Cette fonction effectue une requête à une API pour obtenir les derniers films français
+            de genre d'horreur (avec le code de genre 27).
+
+            Réponses HTTP possibles :
+            - 200 OK : Renvoie une liste de films d'horreur français.
+            - 404 Not Found : Aucun résultat trouvé.
+            - 500 Internal Server Error : Erreur interne du serveur distant.
+
+            :return: Une réponse JSON avec le statut HTTP approprié.
         """
         
         params = {
@@ -375,13 +385,13 @@ class TheMovieDB:
             
         try:
             api_response = self.get_api_response(endPoint, params)    
-    
+
             if api_response:
                 extracted_data = self.extract_movie_data(api_response)
-   
+
                 response = {
                     "status": "200",
-                    "message": "Voici les derniers films français.",
+                    "message": "Voici les derniers films d'horreur français.",
                     "data": extracted_data
                 }
                 
@@ -394,7 +404,7 @@ class TheMovieDB:
             return jsonify(response), 404
         
         except Exception as e:
-            print(f"Erreur inattendue 65 : {e}")
+            print(f"Erreur inattendue : {e}")
             response = {
                 "status": "500",
                 "error": "Erreur serveur distant"

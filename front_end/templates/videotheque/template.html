@@ -640,13 +640,14 @@
                             <br>
                             Adresse mail : {{ session.user_info.email }}
                             <br>
-                            <a href="api/deleteUser" class="btn btn-danger mt-3" id="deleteUserLink">
-                                <span class="d-flex gap-2">
-                                    <span class="material-icons color_8">delete</span> 
-                                    Supprimer mon compte
-                                </span>
-                            </a>                            
                         </p>
+                                                     
+                        <form action="/deleteUser" method="POST">
+                            <button class="btn btn-danger d-flex gap-2">
+                                <span class="material-icons color_8">delete</span> 
+                                Supprimer mon compte
+                            </button>
+                        </form>   
                     {% endif %}
                 </div>
             </div>
@@ -724,35 +725,4 @@
             padding-bottom: 20px;
         }
     </style>
-
-    <script>
-        $(document).ready(function() {
-            console.log('cc');
-
-            $('#deleteUserLink').click(function(e) {
-                console.log('clicuqer')
-                e.preventDefault(); // Empêche le lien de suivre son URL
-        
-                var userId = "{{ session.user_info.user_id }}"; // Remplace par la méthode appropriée pour obtenir l'ID de l'utilisateur
-        
-                $.ajax({
-                    url: '/api/deleteUser', 
-                    type: 'DELETE',
-                    contentType: 'application/json', // Spécifie que tu envoies des données JSON
-                    data: JSON.stringify({ user_id: userId }), // Convertis l'objet en chaîne JSON
-                    success: function(response) {
-                        // Gère la réponse réussie ici
-                        console.log('Compte supprimé', response);
-                    },
-                    error: function(error) {
-                        // Gère l'erreur ici
-                        console.log('Erreur lors de la suppression', error);
-                    }
-                });
-            });
-        });
-        
-        
-        
-    </script>
 </body>

@@ -4,6 +4,7 @@ import requests
 from flask import render_template, request, abort, redirect, url_for, flash, session
 
 from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import current_user
 import json
 
 from src.classes.user import User  
@@ -24,7 +25,9 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 #
+#
 #   Authentification
+#
 #
 
 # Rechargement de l'utilisateur
@@ -126,8 +129,44 @@ def logout():
     flash("Au revoir !")
     return redirect(url_for('login'))
 
+@app.route('/deleteUser', methods=['POST'])
+def deleteUser():
+    """_summary_
+    Cette méthode se charge de supprimer un utilisateur
+    
+    Returns:
+        _type_: une réponse Json
+    """
+    
+    if request.method == 'POST':
+        print('tu veux supprimer')
+        
+        if current_user.is_authenticated:
+            user_id = current_user.id
+        print(user_id)
+
+        headers = {'Content-Type': 'application/json'}
+        api_url = f"{server_front_end_url}/api/deleteUser"
+        
+        try:
+            response = requests.post(api_url, json={"user_id": user_id}, headers=headers)
+            response.raise_for_status()
+            if response.status_code == 204:
+                logout_user()
+                flash("Votre compte a bien été supprimé")
+                return redirect(url_for('login'))
+            
+            flash("Une erreur s'est produite pendant la suppression.")
+            return redirect(url_for('/'))
+        except requests.exceptions.RequestException as e:
+            error_message = f"Erreur de requête vers l'URL distante 78: {str(e)}"
+            flash(error_message)
+            return redirect(url_for('signUp')) 
+        
+#
 #
 #   Web Application 
+#
 #
 
 @app.route('/', methods=['GET'])

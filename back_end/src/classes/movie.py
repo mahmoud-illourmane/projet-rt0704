@@ -36,7 +36,6 @@ class Movie:
         save_movie(movie): Sauvegarde les données du film dans un fichier JSON.
         delete_movie_(movie_id): Supprime un film en fonction de son identifiant.
         edit_movie(data): Modifie une information d'un film en fonction de son identifiant.
-
     """
     
     def __init__(self, movie_data: dict):
@@ -95,6 +94,7 @@ class Movie:
         Returns:
             str: Le chemin du fichier image sauvegardé.
         """
+        
         try:
             if base64_string == 'null':
                 image_name = 'NOCOVERMOVIE.webp'
@@ -134,6 +134,7 @@ class Movie:
             Returns:
                 str: Une réponse JSON indiquant le statut de la sauvegarde.
         """
+        
         try:
             # ouverture le fichier 'storage/movies.json' en mode lecture et écriture
             with open(f'storage/movies_{user_id}.json', 'r+') as file:
@@ -169,14 +170,15 @@ class Movie:
     @staticmethod
     def delete_movie_(movie_id: int, user_id: str) -> str:
         """
-        Supprime un film en fonction de son identifiant.
+            Supprime un film en fonction de son identifiant.
 
-        Args:
-            movie_id (int): L'identifiant unique du film à supprimer.
+            Args:
+                movie_id (int): L'identifiant unique du film à supprimer.
 
-        Returns:
-            str: Une réponse JSON indiquant le statut de la suppression.
+            Returns:
+                str: Une réponse JSON indiquant le statut de la suppression.
         """
+        
         try:
             int(movie_id)
         except ValueError:
@@ -227,14 +229,15 @@ class Movie:
     @staticmethod
     def edit_movie(data: str, user_id: str) -> str:
         """
-        Modifie une information d'un film en fonction de son identifiant.
+            Modifie une information d'un film en fonction de son identifiant.
 
-        Args:
-            data (str): Les données de modification du film.
+            Args:
+                data (str): Les données de modification du film.
 
-        Returns:
-            str: Une réponse JSON indiquant le statut de la modification.
+            Returns:
+                str: Une réponse JSON indiquant le statut de la modification.
         """
+        
         movieId = data["movieId"]
         nameInfoToUpdate = data["inputName"]
         inputContent = data["inputContent"]

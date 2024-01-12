@@ -17,9 +17,10 @@ from flask_login import current_user
 # Accède à la variable globale depuis la configuration Flask
 server_back_end_url = app.config['SERVER_BACK_END_URL']
 
-
+#
 #
 #   Authentification
+#
 #
 
 @app.route('/api/signUp', methods=['POST'])
@@ -151,7 +152,7 @@ def handleLogIn():
     }
     return jsonify(response), 405
 
-@app.route('/api/deleteUser', methods=['DELETE'])
+@app.route('/api/deleteUser', methods=['POST'])
 def deleteUser():
     """_summary_
     Cette méthode se charge de supprimer un utilisateur
@@ -160,19 +161,26 @@ def deleteUser():
         _type_: une réponse Json
     """
     
-    if request.method == 'DELETE':                                              # Je vérifi que la requête a bien été faite avec POST
+    if request.method == 'POST':                                                # Je vérifi que la requête a bien été faite avec POST
         
         try:
-            if current_user.is_authenticated:
-                user_id = current_user.id
+            user_data = request.get_json()                                      # Récupération des données JSON reçus
+            print('API RECU ID:',user_data.get('user_id'))
+            user_id = user_data.get('user_id')
             
-            print('JE SUPPRIME : ', user_id)
+        except Exception as e:                                                  # Gestion de l'exception
+            error_message = f"Erreur de requête vers l'URL distante : {str(e)}"
+            return jsonify({                                                    # Je retourne un message d'erreur
+                "status": 500,
+                "error": error_message
+            }), 500
+            
+        try:
             api_url = f"{server_back_end_url}/api/deleteUser"                   # Préparation de l'url du serveur distant
-            response = requests.delete(api_url, json={"user_id": user_id})      # Envoi des données au serveur sitant en utilisant une requête POST
-            
-            response = request.get_json() 
+            response = requests.post(api_url, json={"user_id": user_id})               
                                                                                 # Gestion de la réponse du serveur Backend 
-            if response.status_code == 204:                                     # 204 indique que l'inscription s'est bien déroulé                          
+            if response.status_code == 204:                                     # 204 indique que l'inscription s'est bien déroulé         
+                response = request.get_json()                  
                 return jsonify({
                     "status": 204, 
                 }), 204
@@ -195,7 +203,9 @@ def deleteUser():
     return jsonify(response), 405
 
 #
+#
 #   Web Application
+#
 #
 
 @app.route('/api/get-movies/index', methods=['GET'])
@@ -472,6 +482,13 @@ def api_themoviedb_get():
     
 @app.route('/api/themoviedb/get/movie', methods=['GET'])
 def api_themoviedb_get_movie_details():
+    """
+        Récupère les détails d'un film en utilisant son identifiant en tant que requête GET.
+
+        Returns:
+            JSON: Une réponse JSON avec les détails du film ou un message d'erreur.
+    """
+    
     if request.method == 'GET':
         movieId = request.args.get('movieId')
 
@@ -502,6 +519,13 @@ def api_themoviedb_get_movie_details():
     
 @app.route('/api/themoviedb/get/fast-search', methods=['GET'])
 def api_themoviedb_get_fast_search():
+    """
+        Effectue une recherche rapide de films en utilisant une opération spécifiée en tant que requête GET.
+
+        Returns:
+            JSON: Une réponse JSON avec le résultat de la recherche ou un message d'erreur.
+    """
+    
     if request.method == 'GET':
         operationId = int(request.args.get('operationId'))
         if operationId not in [1, 2, 3]:
