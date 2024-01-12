@@ -37,7 +37,7 @@
                 <div class="movie-rating">
                     <strong>Note des utilisateurs</strong>
                     {% if movie.notation >= 5 %}
-                        <h6 class="color_3">{{ movie.notation }}</h6>
+                        <h6 class="color_13">{{ movie.notation }}</h6>
                     {% else %}
                         <h6 class="color_7">{{ movie.notation }}</h6>
                     {% endif %}
@@ -61,7 +61,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url('data:image/jpeg;base64,{{ movieCover | safe }}');
+            background-image: url('{{ movie.cover }}');
             background-size: cover;
             background-position: center;
             filter: blur(3px);

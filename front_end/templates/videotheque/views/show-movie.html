@@ -50,6 +50,7 @@
     </div>
 
     <style>
+        /* Ce code CSS gère l'image d'arrière plan */
         .movie::before {
             content: '';
             position: absolute;
@@ -71,7 +72,7 @@
     <script src="https://cdn.jsdelivr.net/npm/colorthief@2.3.0/dist/color-thief.min.js"></script>
 
     <script type="text/javascript">
-        // Définition d'une variable globale dans le contexte global afin qu'elle soit accessible dans le fichier JavaScript
+        // Définition d'une variable globale, dans le contexte global afin qu'elle soit accessible dans le fichier JavaScript
         var movieNotation = {{ movie.notation }};
     </script>
 

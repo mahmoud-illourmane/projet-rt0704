@@ -46,7 +46,7 @@ class Movie:
         Args:
             movie_data (dict): Un dictionnaire contenant les données du film.
         """
-        
+        self.user_id = movie_data["user_id"]
         self.id = None
         self.movie_name = movie_data["movie_name"]
         self.year_of_creation = movie_data["year_of_creation"]
@@ -60,7 +60,7 @@ class Movie:
         self.last_modified_date = self.creation_date
 
         # Traitement et sauvegarde de l'image
-        self.cover_image_path = self.save_image(self.movie_name, self.cover_image_base64)
+        self.cover_image_path = self.save_image(self.movie_name, self.cover_image_base64, self.user_id)
 
     def to_dict(self) -> dict:
         """
@@ -83,7 +83,7 @@ class Movie:
             "last_modified_date": self.last_modified_date
         }
 
-    def save_image(self, movie_name: str, base64_string: str) -> str:
+    def save_image(self, movie_name: str, base64_string: str, user_id: str) -> str:
         """
             Sauvegarde l'image du film à partir d'une chaîne base64.
             Le nom de l'image est fait avec le nom du film.
@@ -111,7 +111,7 @@ class Movie:
                 # Nettoie le nom du film pour l'utiliser dans le nom de fichier
                 safe_movie_name = re.sub(r'[^A-Za-z0-9_]', '', movie_name)  # Remplace les caractères non alphanumériques
 
-                image_name = f"{safe_movie_name}.{image_format}"
+                image_name = f"{safe_movie_name}_{user_id}.{image_format}"
                 image_path = os.path.join('storage', 'covers', image_name)
 
                 os.makedirs(os.path.dirname(image_path), exist_ok=True)
@@ -124,7 +124,7 @@ class Movie:
             return None
 
     @staticmethod
-    def save_movie(movie: 'Movie') -> str:
+    def save_movie(movie: 'Movie', user_id) -> str:
         """
             Sauvegarde les données du film dans un fichier JSON.
 
@@ -136,7 +136,7 @@ class Movie:
         """
         try:
             # ouverture le fichier 'storage/movies.json' en mode lecture et écriture
-            with open('storage/movies.json', 'r+') as file:
+            with open(f'storage/movies_{user_id}.json', 'r+') as file:
                 data = json.load(file)              # Chargement du contenu JSON du fichier dans la variable 'data'
                 movies = data["movies"]             # Accès à la liste 'movies' dans 'data'
                 movie.id = data["nb_movies"] + 1    # Attribution d'un nouvel ID au film en ajoutant 1 au compteur 'nb_movies'
@@ -146,8 +146,9 @@ class Movie:
                 json.dump(data, file, indent=4)     # Écriture du contenu mis à jour dans le fichier JSON avec une mise en forme de 4 espaces
         except FileNotFoundError:
             try:
-                # Si le fichier 'storage/movies.json' n'existe pas, je le crée en mode écriture
-                with open('storage/movies.json', 'w') as file:  
+                # Si le fichier 'storage/movies_user_id.json' n'existe pas, je le crée en mode écriture
+                # Normalement ce cas de figure ne devrai jamais arriver
+                with open(f'storage/movies_{user_id}.json', 'w') as file:  
                     # Créeation d'un nouveau fichier JSON avec un compteur 'nb_movies' à 1
                     # et une liste 'movies' contenant les données du film en cours
                     json.dump({"nb_movies": 1, "movies": [movie.to_dict()]}, file, indent=4)
@@ -166,7 +167,7 @@ class Movie:
         }), 200
 
     @staticmethod
-    def delete_movie_(movie_id: int) -> str:
+    def delete_movie_(movie_id: int, user_id: str) -> str:
         """
         Supprime un film en fonction de son identifiant.
 
@@ -186,7 +187,7 @@ class Movie:
         
         try:
             # Ouvre le fichier JSON
-            with open('storage/movies.json', 'r') as file:
+            with open(f'storage/movies_{user_id}.json', 'r') as file:
                 movies_data = json.load(file)
                 
             # Trouve le film à supprimer
@@ -209,7 +210,7 @@ class Movie:
             movies_data["nb_movies"] -= 1  # Mettre à jour le compteur de films
 
             # Sauvegarde les modifications dans le fichier JSON
-            with open('storage/movies.json', 'w') as file:
+            with open(f'storage/movies_{user_id}.json', 'w') as file:
                 json.dump(movies_data, file, indent=4)
 
             return jsonify({
@@ -224,7 +225,7 @@ class Movie:
             }), 404
             
     @staticmethod
-    def edit_movie(data: str) -> str:
+    def edit_movie(data: str, user_id: str) -> str:
         """
         Modifie une information d'un film en fonction de son identifiant.
 
@@ -239,7 +240,7 @@ class Movie:
         inputContent = data["inputContent"]
         try:
             # Ouvrre le fichier JSON
-            with open('storage/movies.json', 'r') as file:
+            with open(f'storage/movies_{user_id}.json', 'r') as file:
                 movies_data = json.load(file)
                 
             # Trouve le film à modifier
@@ -257,7 +258,7 @@ class Movie:
             movie_to_update["last_modified_date"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
             # Sauvegarde les modifications dans le fichier JSON
-            with open('storage/movies.json', 'w') as file:
+            with open(f'storage/movies_{user_id}.json', 'w') as file:
                 json.dump(movies_data, file, indent=4)
 
             return jsonify({

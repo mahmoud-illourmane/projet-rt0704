@@ -35,7 +35,6 @@ def load_user(user_id):
         return User(user_id, user_info.get('first_name'), user_info.get('email'))
     return None
 
-
 @app.route('/signUp', methods=['GET', 'POST'])
 def signUp():
     """
@@ -70,7 +69,7 @@ def signUp():
         }
         # Convertir le dictionnaire en une chaîne JSON
         user_data = json.dumps(data)
-        # Spécification de l'en-tête "Content-Type" pour indiquer que vous envoyez du JSON
+        # Spécification de l'en-tête "Content-Type" pour indiquer que j'envoie du JSON
         headers = {'Content-Type': 'application/json'}
         api_url = f"{server_front_end_url}/api/signUp"
         
@@ -128,7 +127,7 @@ def logout():
     return redirect(url_for('login'))
 
 #
-#   Application Web
+#   Web Application 
 #
 
 @app.route('/', methods=['GET'])
@@ -141,6 +140,7 @@ def index():
     Returns:
             str: Une vue HTML de la page d'accueil.
     """
+    
     if request.method == 'GET':
         return render_template('index.html')
     abort(405)

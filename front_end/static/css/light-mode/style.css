@@ -5,6 +5,10 @@
 */
 
 /*==== CONSTS ====*/
+    .modal-body p, .user, .movie-content h6 {
+        color: #4c4b4b !important;
+    }
+
     body { 
         background-color: #fff;
     }

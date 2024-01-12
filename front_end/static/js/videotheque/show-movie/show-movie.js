@@ -27,31 +27,32 @@ $(document).ready(function() {
         stopLoadingAnimation();
     /*== END/Loading animation ==*/
 
+    /*== RatingContainer ==*/
     // Utilise la variable globale movieNotation
-    var ratingContainer = $('.movie-rating');
-    
-    var ratingHTML = '';
-    for (var i = 0; i < 5; i++) {
-        if (i < movieNotation) {
-            ratingHTML += '<i class="material-icons font-size-L star-gold">star</i>';
-        } else {
-            ratingHTML += '<i class="material-icons font-size-L star-silver">star_border</i>'; // Assume 'star_border' is the class for empty stars
+        var ratingContainer = $('.movie-rating');
+        var ratingHTML = '';
+        for (var i = 0; i < 5; i++) {
+            if (i < movieNotation) {
+                ratingHTML += '<i class="material-icons font-size-L star-gold">star</i>';
+            } else {
+                ratingHTML += '<i class="material-icons font-size-L star-silver">star_border</i>'; // Assume 'star_border' is the class for empty stars
+            }
         }
-    }
-    
-    ratingContainer.html(ratingHTML);
-
-    var img = document.querySelector('.movie-img img'); // Sélectionne l'image
-    img.onload = function() {
-        var colorThief = new ColorThief();
-        var dominantColor = colorThief.getColor(img); // Obtient la couleur dominante
-        var movieElement = document.querySelector('.movie');
-        var rgbColor = 'rgba(' + dominantColor[0] + ', ' + dominantColor[1] + ', ' + dominantColor[2] + ', 0.6)'; // Convertir en chaîne rgba
-        movieElement.style.boxShadow = '0px 0px 80px ' + rgbColor; // Applique le box-shadow
-    };       
+        ratingContainer.html(ratingHTML);
+    /*== END/RatingContainer ==*/
         
-    // Si l'image est déjà chargée (à partir du cache), déclenchement manuel de l'événement onload
-    if (img.complete) {
-        img.onload();
-    }        
+    /*== Extraction de la couleur dominante ==*/
+        var img = $('.movie-img img'); // Sélectionne l'image avec jQuery
+        img.on('load', function() {
+            var colorThief = new ColorThief();
+            var dominantColor = colorThief.getColor(img[0]); // Utilise l'élément DOM natif
+            var rgbColor = 'rgba(' + dominantColor[0] + ', ' + dominantColor[1] + ', ' + dominantColor[2] + ', 0.6)'; // Convertir en chaîne rgba
+            $('.movie').css('box-shadow', '0px 0px 80px ' + rgbColor); // Applique le box-shadow avec jQuery
+        });
+
+        // Si l'image est déjà chargée (à partir du cache), déclenchement manuel de l'événement onload
+        if (img[0].complete) {
+            img.trigger('load');
+        }
+    /*== END/Extraction de la couleur dominante ==*/      
 });

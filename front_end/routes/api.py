@@ -3,6 +3,8 @@ from flask import request, jsonify
 import requests, base64
 from typing import Dict, Any
 
+from flask_login import current_user
+
 """
 |
 |   This file contains all API routes that can be called to interact with the back-end.
@@ -149,6 +151,53 @@ def handleLogIn():
     }
     return jsonify(response), 405
 
+@app.route('/api/deleteUser', methods=['DELETE'])
+def deleteUser():
+    """_summary_
+    Cette méthode se charge de supprimer un utilisateur
+    
+    Returns:
+        _type_: une réponse Json
+    """
+    
+    if request.method == 'DELETE':                                              # Je vérifi que la requête a bien été faite avec POST
+        
+        try:
+            if current_user.is_authenticated:
+                user_id = current_user.id
+            
+            print('JE SUPPRIME : ', user_id)
+            api_url = f"{server_back_end_url}/api/deleteUser"                   # Préparation de l'url du serveur distant
+            response = requests.delete(api_url, json={"user_id": user_id})      # Envoi des données au serveur sitant en utilisant une requête POST
+            
+            response = request.get_json() 
+                                                                                # Gestion de la réponse du serveur Backend 
+            if response.status_code == 204:                                     # 204 indique que l'inscription s'est bien déroulé                          
+                return jsonify({
+                    "status": 204, 
+                }), 204
+            else:
+                return jsonify({
+                    "status": 400, 
+                }), 400
+        except requests.exceptions.RequestException as e:
+            print(f"Erreur de requête vers l'API du back-end : {e}")
+            
+            return jsonify({
+                "status": 500, 
+                "message": "Erreur de communication avec l'API du back-end"
+            }), 500
+            
+    response = {
+            "status": 405,
+            "error": "Vous devez utiliser une requête POST pour cette route."
+    }
+    return jsonify(response), 405
+
+#
+#   Web Application
+#
+
 @app.route('/api/get-movies/index', methods=['GET'])
 def getMoviesIndex():
     """
@@ -167,9 +216,12 @@ def getMoviesIndex():
     """
     
     if request.method == 'GET':
+        if current_user.is_authenticated:
+            user_id = current_user.id
         api_url = f"{server_back_end_url}/api/get-movies/index"
+        
         try:
-            response = requests.get(api_url)
+            response = requests.get(api_url, json={"user_id": user_id})
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
@@ -203,9 +255,12 @@ def getMoviesGestions():
     """
     
     if request.method == 'GET':
+        if current_user.is_authenticated:
+            user_id = current_user.id
+            
         api_url = f"{server_back_end_url}/api/get-movies/gestions"
         try:
-            response = requests.get(api_url)
+            response = requests.get(api_url, json={"user_id": user_id})
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
@@ -243,6 +298,9 @@ def add_movie():
             - Autres codes d'erreur HTTP : Si une erreur de requête se produit lors de la communication avec l'API du back-end.
     """
     
+    if current_user.is_authenticated:
+        user_id = current_user.id
+        
     if request.method == 'POST':
         try:
             # Gestion de la couverture d'image du film
@@ -256,6 +314,7 @@ def add_movie():
             
             # Traitement des données du formulaire
             film_data = {
+                'user_id': user_id,
                 'movie_name': request.form['movie_name'],
                 'year_of_creation': request.form['year_of_creation'],
                 'director': request.form['director'],
@@ -294,6 +353,9 @@ def delete_movie() -> Dict[str, Any]:
         Return
             Une réponse json
     """
+    if current_user.is_authenticated:
+        user_id = current_user.id
+        
     if request.method == 'DELETE':
         data = request.json
         movieId = data.get('movieId')
@@ -302,7 +364,7 @@ def delete_movie() -> Dict[str, Any]:
         api_url = f"{server_back_end_url}/api/delete-movie"
         
         # Envoi les données au serveur en utilisant une requête POST
-        response = requests.delete(api_url, json={"movieId": movieId})
+        response = requests.delete(api_url, json={"movieId": movieId, "user_id": user_id})
         return response.json()
     response = {
         "status": "405",
@@ -332,7 +394,11 @@ def edit_movie() -> Dict[str, Any]:
     
     if request.method == 'PATCH':
         data = request.json
-    
+        
+        if current_user.is_authenticated:
+            user_id = current_user.id
+            data['user_id'] = user_id
+            
         api_url = f"{server_back_end_url}/api/edit-movie"
         
         try:

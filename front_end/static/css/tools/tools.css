@@ -78,6 +78,9 @@
         text-decoration: none;
         cursor: pointer;
     }
+    .arrow_back:hover {
+        background-color: #163ea1;
+    }
 
     /* ScrollTop */
         #upBoutton {
@@ -195,117 +198,85 @@
 
 /*==== Tablette ====*/
 @media all  and (min-width: 601px) and (max-width: 1023px){
-/*==== CONST ====*/
-    *:hover {
-        transform: none !important;
-        transition-timing-function: none !important;
-    }
-
-    /* Message UI UX from application */
-        .message-sign-up{
-            width: 80%;
-            margin-left: auto;
-            margin-right: auto;
-            display: flex;
-            align-items: center;
-            background-color: #ffffff;
-            border-radius: 5px ;
-            margin-top: 10px;
-            box-shadow: 0px 0px 80px rgba(0, 0, 0, 0.06);
+    /*==== CONST ====*/
+        *:hover {
+            transform: none !important;
+            transition-timing-function: none !important;
         }
-    /* END/Message UI UX from application */
 
-    /* ScrollTop */
-    #upBoutton {
-        display: none;
-        position: fixed;
-        right: 10px;
-        bottom: 10px;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: #6087ea;
-        color: white;
-        border : none;
-        outline: none;
-        cursor: pointer;
-    }
+        .arrow_back:hover { background-color: #6087ea; }
 
-    /* Menu icon in nav */
-    .menu{ display: block !important; }
+        /* Message UI UX from application */
+            .message-sign-up{
+                width: 80%;
+                margin-left: auto;
+                margin-right: auto;
+                display: flex;
+                align-items: center;
+                background-color: #ffffff;
+                border-radius: 5px ;
+                margin-top: 10px;
+                box-shadow: 0px 0px 80px rgba(0, 0, 0, 0.06);
+            }
+        /* END/Message UI UX from application */
 
+        /* Menu icon in nav */
+        .menu{ display: block !important; }
 
-    /* Display and not display */
-        .responsive-only{ display: block !important; }
-        .pc-only{ display: none !important; }
-    /* Display and not display */
+        /* Display and not display */
+            .responsive-only{ display: block !important; }
+            .pc-only{ display: none !important; }
+        /* Display and not display */
 
-/*==== CONST/End ====*/
+    /*==== CONST/End ====*/
 
 }
-
 /*==== Smartphones ====*/
 @media all  and (max-width: 600px){
-/*==== Const ====*/
-    *:hover {
-        transform: none !important;
-        transition-timing-function: none !important;
-    }
-
-    /* Message UI UX from application */
-        .message-sign-up{
-            width: 100%;
-            margin-left: auto;
-            margin-right: auto;
-            display: flex;
-            align-items: center;
-            background-color: #ffffff;
-            border-radius: 5px ;
-            margin-top: 10px;
-            box-shadow: 0px 0px 80px rgba(0, 0, 0, 0.06);
+    /*==== Const ====*/
+        *:hover {
+            transform: none !important;
+            transition-timing-function: none !important;
         }
-    /* END/Message UI UX from application */
+        .arrow_back:hover { background-color: #6087ea; }
+        
+        /* Message UI UX from application */
+            .message-sign-up{
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                display: flex;
+                align-items: center;
+                background-color: #ffffff;
+                border-radius: 5px ;
+                margin-top: 10px;
+                box-shadow: 0px 0px 80px rgba(0, 0, 0, 0.06);
+            }
+        /* END/Message UI UX from application */
 
-    /* ScrollTop */
-    #upBoutton {
-        display: none;
-        position: fixed;
-        right: 10px;
-        bottom: 10px;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: #6087ea;
-        color: white;
-        border : none;
-        outline: none;
-        cursor: pointer;
-        z-index: 9;
-    }
+        /* Menu icon in nav */
+        .menu{
+            display: block !important;
+            text-decoration: none !important;
 
-    /* Menu icon in nav */
-    .menu{
-        display: block !important;
-        text-decoration: none !important;
-
-    }
-    .menu_open {
-        text-decoration: none !important;
-        font-size: 40px !important;
-    }
-
-    /* Display and not display */
-        .responsive-only{ display: block !important; }
-        .pc-only{ display: none !important; }
-    /* Display and not display */
-
-    /*== Inputs width ==*/
-        .input-width {
-            width: 100%;
         }
-    /*== END/Inputs width ==*/
+        .menu_open {
+            text-decoration: none !important;
+            font-size: 40px !important;
+        }
 
-/*==== CONST/End ====*/
+        /* Display and not display */
+            .responsive-only{ display: block !important; }
+            .pc-only{ display: none !important; }
+        /* Display and not display */
+
+        /*== Inputs width ==*/
+            .input-width {
+                width: 100%;
+            }
+        /*== END/Inputs width ==*/
+
+    /*==== CONST/End ====*/
 
 
     /*== Footer ==*/

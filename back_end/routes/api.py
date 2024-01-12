@@ -65,8 +65,6 @@ def logIn():
             
             email = user_data.get('email')
             password = user_data.get('password')
-        
-            print('Je recois 2: ', email, ' ', password)
             
             try:
                 new_user = User.authenticate_user(email, password)
@@ -88,6 +86,38 @@ def logIn():
                 "status": 500,
                 "error": error_message
             }), 500
+
+@app.route('/api/deleteUser', methods=['DELETE'])
+def deleteUser():
+    if request.method == 'DELETE':
+        try:
+            user_data = request.get_json()
+            
+            user_id = user_data.get('user_id')
+
+            print('cc')
+            print('JE SUPPRIME : ', user_id)
+            
+            try:
+                bool = User.delete_user(user_id)
+                if bool:
+                    return jsonify({"status": 204}), 204
+                return jsonify({"status": 204}), 204
+            except ValueError as e:
+                print(f"Une erreur est survenue : {e}")
+                response = {
+                    "status": 400,
+                    "message": str(e)
+                }
+                return jsonify(response), 400
+        except Exception as e:
+            error_message = f"Erreur de requête vers l'URL distante : {str(e)}"
+            return jsonify({
+                "status": 500,
+                "error": error_message
+            }), 500
+
+
 
 @app.route('/api/get-movies/index', methods=['GET'])
 def get_movies_index():
@@ -112,15 +142,21 @@ def get_movies_index():
     """
     
     try:
-        with open('storage/movies.json', 'r') as file:
+        user_data = request.get_json()
+
+        user_id = user_data.get('user_id')                                          # Je récupère uniquement les films de l'utilisateur connecté
+
+        with open(f'storage/movies_{user_id}.json', 'r') as file:
             movies = json.load(file)
 
         for movie in movies["movies"]:
-            image_path = movie["cover_image_path"].replace("\\", "/")
+            image_path = movie["cover_image_path"]
+            if image_path:
+                image_path = image_path.replace("\\", "/")
 
-            with open(image_path, "rb") as image_file:
-                encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
-                movie["cover_image_base64"] = encoded_string
+                with open(image_path, "rb") as image_file:
+                    encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+                    movie["cover_image_base64"] = encoded_string
 
         response = {
             "status": "200",
@@ -161,8 +197,12 @@ def get_movies_gestions():
     """
     
     try:
-        # Ouvrir le fichier JSON où se trouvent les données de la vidéothèque
-        with open('storage/movies.json', 'r') as file:
+        user_data = request.get_json()
+        user_id = user_data.get('user_id')
+        print(user_id)
+        
+        # Ouvrerture du fichier JSON où se trouvent les données de la vidéothèque
+        with open(f'storage/movies_{user_id}.json', 'r') as file:
             data = json.load(file)
         
         # Récupérer le nombre de films et la liste des films
@@ -211,9 +251,10 @@ def addMovie():
     if request.method == 'POST':
         try:
             movie_data = request.json
-
+            user_id = movie_data.get('user_id')   
+            print('ADD MOVIE :', user_id)
             movie = Movie(movie_data)
-            response = movie.save_movie(movie)
+            response = movie.save_movie(movie, user_id)
 
             return response
         except Exception as e:
@@ -247,8 +288,8 @@ def delete_movie():
     try:
         data = request.json
         movieId = data["movieId"]
-        
-        response = Movie.delete_movie_(movieId)
+        user_id = data["user_id"]
+        response = Movie.delete_movie_(movieId, user_id)
 
         return response  # Je n'utilise pas jsonify(response) car la méthode delete_movie_ le fait déjà.
     except Exception as e:
@@ -283,6 +324,7 @@ def edit_movie():
         data = request.json
         
         # Gestion des notations
+        user_id = data.get("user_id")
         input_name = data.get("inputName")
         input_content = data.get("inputContent")
         
@@ -294,7 +336,7 @@ def edit_movie():
             elif int(input_content) >= 5:
                 data["inputContent"] = str(5)
                 
-        response = Movie.edit_movie(data)
+        response = Movie.edit_movie(data, user_id)
         return response
     except Exception as e:
         return jsonify({

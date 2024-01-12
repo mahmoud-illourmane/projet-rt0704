@@ -51,6 +51,18 @@ class User:
 
         new_user = cls(email, password, first_name)
         cls.save_user(new_user)
+
+        # Crée un fichier JSON vide dans le répertoire "storage" avec le nom "movies_id.json"
+        user_id = new_user.id
+        file_name = os.path.join("storage", f"movies_{user_id}.json")
+        data = {
+            "nb_movies": 0,
+            "movies": []
+        }
+
+        with open(file_name, 'w') as json_file:
+            json.dump(data, json_file, indent=4)
+
         return {
             'status': 201,
             'id': new_user.id,
@@ -67,7 +79,7 @@ class User:
                 users = json.load(file)
                 for user_id, user_data in users.items():
                     if user_data['email'] == email and user_data['password'] == password:
-                        # Les identifiants sont corrects, retournez les informations de l'utilisateur
+                        # Les identifiants sont corrects, retourner les informations de l'utilisateur
                         return {
                             'status': 200,
                             'id': user_id,
@@ -80,3 +92,33 @@ class User:
             'first_name': user_data['first_name'],
             'email': user_data['email']
         }
+    @staticmethod
+    def delete_user(user_id):
+        users_file_path = 'storage/users.json'
+
+        # Supprimer l'utilisateur de users.json
+        if os.path.exists(users_file_path):
+            with open(users_file_path, 'r') as file:
+                users = json.load(file)
+
+            if user_id in users:
+                del users[user_id]
+
+                with open(users_file_path, 'w') as file:
+                    json.dump(users, file, indent=4)
+            else:
+                print("Utilisateur non trouvé.")
+                return False
+
+        # Supprimer le fichier movies_user_id.json
+        movies_file_path = f'storage/movies_{user_id}.json'
+        if os.path.exists(movies_file_path):
+            os.remove(movies_file_path)
+
+        # Supprimer les images de couverture associées
+        covers_dir = 'storage/covers'
+        if os.path.isdir(covers_dir):
+            for filename in os.listdir(covers_dir):
+                if filename.endswith(f'_{user_id}.jpg') or filename.endswith(f'_{user_id}.png') or filename.endswith(f'_{user_id}.webp') or filename.endswith(f'_{user_id}.jpeg'):
+                    os.remove(os.path.join(covers_dir, filename))
+        return True
