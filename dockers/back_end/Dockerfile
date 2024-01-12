@@ -5,21 +5,30 @@ FROM python:3.8-alpine
 WORKDIR /app
 
 # Copier les fichiers de dépendances
-COPY requirements.txt /app/
+COPY /requirements.txt /app/
 
-# Installer les dépendances
+#
+# Installation des dépendances
+#
+
 # gcc et musl-dev sont nécessaires pour compiler certaines dépendances Python
 RUN apk add --no-cache gcc musl-dev linux-headers
+
+# Installation des dépendances Python à partir du fichier requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Installer Flask
+# Installation de Flask
 RUN pip install Flask
 
-# Installer requests
+# Installation du package requests
 RUN pip install requests
 
-# Exposer le port (peut différer entre front et back)
+# Exposition du port
 EXPOSE 5000
 
 # Commande pour démarrer l'application Flask
-CMD ["python", "app.py"]
+CMD ["python", "/app/app.py"]
+
+# Pourquoi le dockerfile du font est 
+# CMD ["python", "/app/app.py"]
+# Et de base celui-ci est CMD ["python", "/app.py"]
