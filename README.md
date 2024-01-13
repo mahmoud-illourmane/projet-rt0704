@@ -20,7 +20,7 @@ Le projet est organisé comme suit :
 
 - Python 3.8+
 - Docker
-
+- Avoir un réseau Docker : docker network create projetRt0704Network
 ### Installation et Configuration
 
 1. **Cloner le dépôt :**
