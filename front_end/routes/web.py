@@ -130,7 +130,7 @@ def logout():
     return redirect(url_for('login'))
 
 @app.route('/deleteUser', methods=['POST'])
-def deleteUser():
+def deleteUser_():
     """_summary_
     Cette méthode se charge de supprimer un utilisateur
     
