@@ -320,7 +320,20 @@ $(document).ready(function() {
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    console.log('Erreur AJAX :', textStatus, errorThrown);
+                    console.log("[fun.js] Statut de l'erreur : ", textStatus);
+                    console.log("[fun.js] Texte de l'erreur : ", errorThrown);
+                    console.log("[fun.js] Réponse du serveur : ", jqXHR.responseText);
+                    console.log("[fun.js] Code d'état : ", jqXHR.status);
+                    
+                    let responseJson = JSON.parse(jqXHR.responseText);
+
+                    if (jqXHR.status == 500) {
+                        let errorMessage = "Erreur interne du serveur : " + responseJson.error;
+                        showToastMessage(errorMessage, "text-danger");
+                    }else{
+                        let errorMessage = "Erreur : " + responseJson.error;
+                        showToastMessage(errorMessage, "text-danger");
+                    }
                 },
                 complete: function() {
                     $(".fast-search-btn button").prop("disabled", false);

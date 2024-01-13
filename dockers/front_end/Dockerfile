@@ -30,4 +30,4 @@ RUN pip install requests
 EXPOSE 5000
 
 # Commande pour démarrer l'application Flask
-CMD ["python", "/app/app.py"]
+CMD ["python", "app.py"]

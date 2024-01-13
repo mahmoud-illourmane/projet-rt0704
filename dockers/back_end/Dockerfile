@@ -27,8 +27,4 @@ RUN pip install requests
 EXPOSE 5000
 
 # Commande pour démarrer l'application Flask
-CMD ["python", "/app/app.py"]
-
-# Pourquoi le dockerfile du font est 
-# CMD ["python", "/app/app.py"]
-# Et de base celui-ci est CMD ["python", "/app.py"]
+CMD ["python", "app.py"]
