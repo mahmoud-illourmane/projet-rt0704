@@ -28,14 +28,12 @@ Le projet est organisé comme suit :
    ```bash
    git clone https://github.com/mahmoud-illourmane/projet-rt0704
 2. **Créer le réseau docker  :**
-  ```bash
+   ```bash
    docker network create projetRt0704Network
 3. **Se déplacer dans le dossie dockers/back_end :**
-  ```bash
+   ```bash
    docker compose up -d
 4. **Se déplacer dans le dossie dockers/front_end :**
-  ```bash
+   ```bash
    docker compose up -d
-
-   
   
