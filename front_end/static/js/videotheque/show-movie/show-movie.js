@@ -46,7 +46,7 @@ $(document).ready(function() {
         img.on('load', function() {
             var colorThief = new ColorThief();
             var dominantColor = colorThief.getColor(img[0]); // Utilise l'élément DOM natif
-            var rgbColor = 'rgba(' + dominantColor[0] + ', ' + dominantColor[1] + ', ' + dominantColor[2] + ', 0.6)'; // Convertir en chaîne rgba
+            var rgbColor = 'rgba(' + dominantColor[0] + ', ' + dominantColor[1] + ', ' + dominantColor[2] + ', 0.8)'; // Convertir en chaîne rgba
             $('.movie').css('box-shadow', '0px 0px 80px ' + rgbColor); // Applique le box-shadow avec jQuery
         });
 
