@@ -6,9 +6,16 @@
     /*== END/Toast ==*/
 /*==== END/CONSTS ====*/
 
+/*== Body ==*/
+.form-container {
+    background-color: rgb(53, 54, 55);
+    padding: 20px;
+}
+/*== END/Body ==*/
+
 /*== Form SignUp ==*/
-    .signUp-form {
-        width: 50%;
+    .signup-form {
+        width: 30%;
         margin-left: auto;
         margin-right: auto;
     }

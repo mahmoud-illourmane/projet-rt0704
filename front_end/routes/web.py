@@ -117,7 +117,7 @@ def login():
             # Stocker les informations dans la session
             session['user_info'] = {'id': user.id, 'first_name': user.first_name, 'email': user.email}
             return redirect(url_for('index'))
-        flash("L'email ou le mot de passe est incorrect.")
+        flash('L\'email ou le mot de passe est incorrect.', 'error')
         return redirect(url_for('login'))
 
     return render_template('signIn-signUp/login.html')
@@ -162,7 +162,12 @@ def deleteUser_():
             error_message = f"Erreur de requête vers l'URL distante 78: {str(e)}"
             flash(error_message)
             return redirect(url_for('signUp')) 
-        
+ 
+@login_manager.unauthorized_handler
+def unauthorized():
+    flash("Veuillez vous connecter pour accéder à cette page.", "error")
+    return redirect(url_for('login'))
+    
 #
 #
 #   Web Application 
