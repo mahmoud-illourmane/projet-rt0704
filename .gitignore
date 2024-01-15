@@ -2,6 +2,7 @@
 .vscode
 front_end/__pycache__/
 back_end/__pycache__/
+back_end/storage/
 
 app.py
 

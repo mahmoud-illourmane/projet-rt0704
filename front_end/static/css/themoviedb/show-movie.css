@@ -1,0 +1,73 @@
+/*==== CONSTS ====*/
+    .menu_open {
+        text-decoration: none;
+    }
+
+    .material-icons.star-gold {
+        color: rgb(221, 189, 6) !important;
+    }
+/*==== END/CONSTS ====*/
+
+/*== Add movie ==*/
+    .add-to-videotheque {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    .add_btn {
+        border-radius: 50%;
+        background-color: brown;
+        color: #fff;
+        text-decoration: none;
+        padding: 10px;
+    }
+    .add_btn:hover {
+        background-color: rgb(168, 95, 95);
+    }
+/*==END/Add movie ==*/
+
+
+img {
+    border-radius: 10px;
+    box-shadow:0px 0px 80px rgba(80, 98, 211, 0.30);
+}
+
+.movie {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+/*Tablettes*/
+@media all  and (min-width: 601px) and (max-width: 1023px){
+/*==== CONSTS ====*/
+
+/*==== END/CONSTS ====*/
+}
+
+/*Smartphones*/
+@media all  and (max-width: 600px){
+/*==== CONSTS ====*/
+
+/*==== END/CONSTS ====*/
+
+    .movie {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .movie-content, .movie-img {
+        margin-top: 10px;
+    }
+}

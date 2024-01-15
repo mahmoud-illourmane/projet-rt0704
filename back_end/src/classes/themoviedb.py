@@ -44,7 +44,9 @@ class TheMovieDB:
         'poster_path': 'cover_photo',
         'backdrop_path': 'background_image',
         'creators': 'creators',
-        'genres': 'genres'
+        'genres': 'genres',
+        'budget': 'budget',
+        'revenue': 'revenue'
     }
 
     genre_id_to_name = {
@@ -337,16 +339,12 @@ class TheMovieDB:
             
             # Appel à la méthode de classe pour effectuer la requête API avec les paramètres indiqués plus haut
             api_response = self.get_api_response(endPoint, params)    
-            
             if api_response:
-                data_extracted = self.extract_movie_data_by_movie_id(api_response)
-                
                 response = {
                     "status": "200",
                     "message": "Données envoyés avec succès",
                     "data": self.extract_movie_data_by_movie_id(api_response)
                 }
-                
                 return jsonify(response), 200
             else:
                 response = {

@@ -96,7 +96,11 @@ class Movie:
         """
         
         try:
-            if base64_string == 'null':
+            # Vérifie si base64_string est un nom de fichier
+            if '.' in base64_string and base64_string.split('.')[-1] in ['jpg', 'jpeg', 'png', 'webp']:
+                return base64_string
+        
+            elif base64_string == 'null':
                 image_name = 'NOCOVERMOVIE.webp'
                 image_path = os.path.join('storage', 'covers', image_name)
                 return image_path
@@ -119,6 +123,7 @@ class Movie:
                     file.write(image_data)
 
                 return image_path
+
         except Exception as e:
             print(f"Erreur lors de la sauvegarde de l'image : {e}")
             return None
@@ -134,17 +139,29 @@ class Movie:
             Returns:
                 str: Une réponse JSON indiquant le statut de la sauvegarde.
         """
-        
+
         try:
             # ouverture le fichier 'storage/movies.json' en mode lecture et écriture
             with open(f'storage/movies_{user_id}.json', 'r+') as file:
-                data = json.load(file)              # Chargement du contenu JSON du fichier dans la variable 'data'
-                movies = data["movies"]             # Accès à la liste 'movies' dans 'data'
-                movie.id = data["nb_movies"] + 1    # Attribution d'un nouvel ID au film en ajoutant 1 au compteur 'nb_movies'
-                movies.append(movie.to_dict())      # Ajout des données du film (sous forme de dictionnaire) à la liste 'movies'
+                data = json.load(file)                                                                  # Chargement du contenu JSON du fichier dans la variable 'data'
+                
+                if any(film['cover_image_path'] == movie.cover_image_path for film in data['movies']):  # Vérifie si 'movie.cover_image_path' existe déjà (film identique)
+                    return jsonify({
+                        "status": "400",
+                        "error": "Le film existe déjà dans votre vidéothèque."
+                    }), 400
+
+                movies = data["movies"]                                                                 # Accès à la liste 'movies' dans 'data'
+                movie.id = data["nb_movies"] + 1                                                        # Attribution d'un nouvel ID au film en ajoutant 1 au compteur 'nb_movies'
+                movies.append(movie.to_dict())                                                          # Ajout des données du film (sous forme de dictionnaire) à la liste 'movies'
                 data["nb_movies"] += 1
-                file.seek(0)                        # Positionnement de la position de lecture/écriture au début du fichier
-                json.dump(data, file, indent=4)     # Écriture du contenu mis à jour dans le fichier JSON avec une mise en forme de 4 espaces
+                file.seek(0)                                                                            # Positionnement de la position de lecture/écriture au début du fichier
+                json.dump(data, file, indent=4)                                                         # Écriture du contenu mis à jour dans le fichier JSON avec une mise en forme de 4 espaces
+                
+                return jsonify({
+                    "status": "200",
+                    "message": "Le film a bien été ajouté à votre vidéothèque."
+                }), 200
         except FileNotFoundError:
             try:
                 # Si le fichier 'storage/movies_user_id.json' n'existe pas, je le crée en mode écriture
@@ -161,11 +178,6 @@ class Movie:
                         "status": "500",
                         "error": error_message
                     }), 500
-
-        return jsonify({
-            "status": "200",
-            "message": "Le film a bien été ajouté à votre vidéothèque."
-        }), 200
 
     @staticmethod
     def delete_movie_(movie_id: int, user_id: str) -> str:

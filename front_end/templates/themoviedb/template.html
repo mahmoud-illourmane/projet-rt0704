@@ -417,12 +417,23 @@
                         </li>
                     </ul>
 
-                    <div class="switcher-modes">
-                        <a id="mode-switcher">
-                            <i class="material-icons mode-switcher-icon dark-mode-icon">brightness_3</i>
-                            <i class="material-icons mode-switcher-icon light-mode-icon">wb_sunny</i>
-                        </a>
-                    </div>  
+                    <div class="d-flex gap-5">
+                        {% if current_user.is_authenticated %}
+                            <div class="nav-item-nav-bar">
+                                <a type="button" class="btn btn-primary d-flex" href="{{ url_for('logout') }}">
+                                    <span class="material-icons">logout</span>
+                                    Déconnexion
+                                </a>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="switcher-modes">
+                            <a id="mode-switcher">
+                                <i class="material-icons mode-switcher-icon dark-mode-icon">brightness_3</i>
+                                <i class="material-icons mode-switcher-icon light-mode-icon">wb_sunny</i>
+                            </a>
+                        </div>  
+                    </div>
                 </div>
             </div>
         </nav>

@@ -139,11 +139,9 @@ def deleteUser_():
     """
     
     if request.method == 'POST':
-        print('tu veux supprimer')
         
         if current_user.is_authenticated:
             user_id = current_user.id
-        print(user_id)
 
         headers = {'Content-Type': 'application/json'}
         api_url = f"{server_front_end_url}/api/deleteUser"
@@ -242,6 +240,14 @@ def showMovie():
     """
 
     if request.method == 'POST':
+        # Je dois gérer le cas où je reçois une image vase64 ou un simple nom de fichier d'image externe
+        coverImage = request.form.get('image64')
+        # Initialiser le booléen à False
+        extension_trouvee = False
+        # Vérifie si les 50 premiers caractères contiennent une des extensions
+        if any(coverImage[:50].endswith(ext) for ext in ['.jpg', '.png', '.jpeg', '.webp']):
+            extension_trouvee = True
+
         movie_id = request.form.get('movieId')
         category = request.form.get('category')
         movie_name = request.form.get('movieName')
@@ -251,6 +257,9 @@ def showMovie():
         notation = request.form.get('notation')
         image64 = request.form.get('image64')
 
+        if notation == "":
+            notation = 0
+    
         movie_data = {
             'id': movie_id,
             'category': category,
@@ -259,7 +268,8 @@ def showMovie():
             'director': director,
             'synopsis': synopsis,
             'notation': notation,
-            'image64': image64
+            'image64': image64,
+            'extension_trouvee': extension_trouvee
         }
 
         return render_template('videotheque/views/show-movie.html', movie=movie_data)
@@ -271,6 +281,25 @@ def showMovie():
 #
 #
 
+def format_number(number:any):
+    """_summary_
+        Cette méthode formate les données numériques en chaîne de caractères.
+        Exemple : 1000000 = 1 M
+    Args:
+        number (_type_): str
+
+    Returns:
+        _type_: _description_
+    """
+    number = int(number)
+    
+    if number >= 1000000:
+        return "{:.2f} M".format(number / 1000000)
+    elif number >= 1000:
+        return "{:.2f} K".format(number / 1000)
+    else:
+        return str(number)
+            
 @app.route('/themoviedb', methods=['GET'])
 def themoviedb():
     """
@@ -288,15 +317,23 @@ def themoviedb():
     
 @app.route('/show-movie-themoviedb/details', methods=['POST'])
 def show_movie_details_themoviedb():
+    """_summary_
+        Cette route affiche la vue qui détaille les informations d'un film.
+    Returns:
+        _type_: vue HTML
+    """
     if request.method == 'POST':
         # Récupération des données depuis le formulaire
         movie_data = {
             'title': request.form.get('movieName'),
+            'revenue': format_number(request.form.get('revenue')),
+            'budget': format_number(request.form.get('budget')),
             'category': request.form.get('movieCategory'),
             'release': datetime.strptime(request.form.get('movieRelease'), '%Y-%m-%d'),
             'runtime': f"{int(request.form.get('runtime')) // 60}h {int(request.form.get('runtime')) % 60}min",
             'notation': float(request.form.get('movieNotation')),
             'synopsis': request.form.get('movieSynopsis'),
+            'creators': request.form.get('creators'),
             'cover': f"https://image.tmdb.org/t/p/w400{request.form.get('movieCover')}" if request.form.get('movieCover') else None,
             'movieBackgroundImage': f"https://image.tmdb.org/t/p/w500{request.form.get('backgroundImage')}" if request.form.get('backgroundImage') else None
         }

@@ -4,6 +4,12 @@
     }
 /*==== END/CONSTS ====*/
 
+#searchForm {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .button-clicked {
     background-color: green !important;
     color: white; /* Changement de la couleur du texte si nécessaire */
@@ -68,6 +74,8 @@
 /*== fast-search-btns ==*/
     .fast-search {
         width: 50%;
+        margin-left: auto;
+        margin-right: auto;
         background-color: rgb(90, 90, 90);
         padding: 10px;
         border-radius: 15px;

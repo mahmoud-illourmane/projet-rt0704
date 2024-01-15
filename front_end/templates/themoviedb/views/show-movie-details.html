@@ -1,7 +1,7 @@
 {% extends 'themoviedb/template.html' %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/videotheque/show-movie/show-movie.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/themoviedb/show-movie.css') }}">
 {% endblock %}
 
 {% block title %}
@@ -13,6 +13,13 @@
 
         <a id="return_back" class="material-icons arrow_back">arrow_back</a>
 
+        {% if current_user.is_authenticated %}
+            <a id="btnAddToVideotheque" class="add-to-videotheque">
+                <span class="material-icons add_btn">add</span>
+                <span>Ajouter à ma vidéothèque</span>
+            </a>
+        {% endif %}
+
         <div class="movie">
             <div class="movie-img">
                 <img class="img-movie" src="{{movie.cover}}">
@@ -20,28 +27,61 @@
 
             <div class="movie-content">
                 <div class="movie-title">
-                    <h1>{{ movie.title }}</h1>
+                    <h1 class="title">{{ movie.title }}</h1>
                 </div>
+
                 <div class="movie-date-creation">
-                    <strong>Date de sortie</strong>
-                    <h6 class="color_8">{{ movie.release.strftime('%d/%m/%Y') }}</h6>
+                    <span class="d-flex gap-1">
+                        <span class="material-icons">calendar_month</span>
+                        <strong>Date de sortie</strong>
+                    </span>
+                    <h6 class="color_8 release">{{ movie.release.strftime('%d/%m/%Y') }}</h6>
                 </div>
+
                 <div class="movie-date-creation">
-                    <strong>Durée du film</strong>
+                    <span class="d-flex gap-1">
+                        <span class="material-icons">av_timer</span>
+                        <strong>Durée du film</strong>
+                    </span>
                     <h6 class="color_8">{{ movie.runtime }}</h6>
                 </div>
+
                 <div class="movie-category">
-                    <strong>Genres</strong>
-                    <h6 class="color_8">{{ movie.category }}</h6>
+                    <span class="d-flex gap-1">
+                        <span class="material-icons">category</span>
+                        <strong>Genres</strong>
+                    </span> 
+                    <h6 class="color_8 category">{{ movie.category }}</h6>
                 </div>
+
+                <div class="movie-budget">
+                    <span class="d-flex gap-1">
+                        <span class="material-icons">savings</span>
+                        <strong>Budget</strong>
+                    </span> 
+                    <h6 class="color_8">{{ movie.budget }}</h6>
+                </div>
+
+                <div class="movie-revenue">
+                    <span class="d-flex gap-1">
+                        <span class="material-icons">currency_exchange</span>
+                        <strong>Chiffre d'affaires</strong>
+                    </span> 
+                    <h6 class="color_8">{{ movie.revenue }}</h6>
+                </div>
+
                 <div class="movie-rating">
-                    <strong>Note des utilisateurs</strong>
+                    <span class="d-flex gap-1">
+                        <span class="material-icons">hotel_class</span>
+                        <strong>Note des utilisateurs</strong>
+                    </span> 
                     {% if movie.notation >= 5 %}
-                        <h6 class="color_13">{{ movie.notation }}</h6>
+                        <h6 class="color_13 notation">{{ movie.notation }}</h6>
                     {% else %}
-                        <h6 class="color_7">{{ movie.notation }}</h6>
+                        <h6 class="color_7 notation">{{ movie.notation }}</h6>
                     {% endif %}
                 </div>
+
                 <div class="movie-synopsis mt-1">
                     <p>
                         <strong>Synopsis</strong>
@@ -72,6 +112,5 @@
 {% endblock %}
 
 {% block jsScripts %}
-    <script src="https://cdn.jsdelivr.net/npm/colorthief@2.3.0/dist/color-thief.min.js"></script>
     <script src="{{ url_for('static', filename='js/themoviedb/show-movie-details.js') }}"></script>
 {% endblock %}

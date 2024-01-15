@@ -204,7 +204,6 @@ class User:
                 with open(users_file_path, 'w') as file:
                     json.dump(users, file, indent=4)
             else:
-                print("Utilisateur non trouvé.")
                 return False
 
         # Supprimer le fichier movies_user_id.json

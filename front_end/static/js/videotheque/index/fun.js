@@ -41,7 +41,7 @@ var modalAddMovie = $('#modalAddMovie');
             }
         });
     });    
-        
+       
     /**
      * Cette méthode sert à récupérer les films d'un utilisateur et à les afficher sur la page d'accueil
      */
@@ -57,12 +57,23 @@ var modalAddMovie = $('#modalAddMovie');
                     
                     if (response.data.movies && response.data.movies.length > 0) {
                         response.data.movies.forEach(movie => {
+                            let imageUrl;
                             let imageFormat = 'webp';
-                            // Je dois déterminer le format de l'image afin de pouvoir la reconstruire ultérieurement
-                            if (movie.cover_image_format) {
-                                imageFormat = movie.cover_image_format.toLowerCase();
+                           
+                            // Extrait les 30 premiers caractères pour vérifier la présence d'une extension de fichier
+                            let first30Chars = movie.cover_image_base64.substring(0, 50);
+
+                            // Vérifie si la chaîne contient une extension de fichier commune dans les 30 premiers caractères
+                            if (/\.(jpg|png|webp)/i.test(first30Chars)) {
+                                // Construit l'URL de l'image externe
+                                imageUrl = `https://image.tmdb.org/t/p/w500/${movie.cover_image_base64}`;
+                            } else {
+                                // Je dois déterminer le format de l'image afin de pouvoir la reconstruire ultérieurement
+                                if (movie.cover_image_format) {
+                                    imageFormat = movie.cover_image_format.toLowerCase();
+                                }
+                                imageUrl = `data:image/${imageFormat};base64,${movie.cover_image_base64}`;
                             }
-                            let imageUrl = `data:image/${imageFormat};base64,${movie.cover_image_base64}`;
                             
                             // Le code HTML d'un film
                             let movieHtml = `
@@ -76,7 +87,7 @@ var modalAddMovie = $('#modalAddMovie');
                                     <hr>
                                     <div class="d-flex gap-1 mb-1">
                                         <span class="material-icons font-size-XL color_8">category</span>
-                                        <h6 class="font-size-M color_8">${movie.category}</h6>
+                                        <h6 class="font-size-M categories color_8">${movie.category}</h6>
                                     </div>
                                     <div class="d-flex gap-1 mb-1">
                                         <span class="material-icons font-size-XL color_8">calendar_month</span>
@@ -97,7 +108,7 @@ var modalAddMovie = $('#modalAddMovie');
                                     </div>
                                 </div>
                             `;
-                            // Ajout du HTML généré au conteneur de films
+                            
                             moviesContainer.append(movieHtml);
                         });
                         // Arrête l'animation de chargement

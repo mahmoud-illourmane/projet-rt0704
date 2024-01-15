@@ -5,60 +5,60 @@
 */
 
 /*==== CONSTS ====*/
-    .modal-body p, .user, .movie-content h6 {
-        color: #4c4b4b !important;
-    }
+.modal-body p, .user, .movie-content h6 {
+    color: #4c4b4b !important;
+}
 
-    body { 
-        background-color: #fff;
-    }
+body { 
+    background-color: #fff;
+}
 
-    *, .menu_open {
-        color:#2b2a2a;
-    }
-    
-    p, input {
-        color: #333131;
-    }
-    .btn, .filter-title {
-        color: #fff !important;
-    }
+*, .menu_open {
+    color:#2b2a2a;
+}
 
-    /*== Show movie page ==*/
-        .span-synopsis {
-            color: rgb(80, 79, 79)!important;
-        }
-    /*== END/Show movie page ==*/
+p, input {
+    color: #333131;
+}
+.btn, .filter-title, .label-sign {
+    color: #fff !important;
+}
+
+/*== Show movie page ==*/
+    .span-synopsis {
+        color: rgb(80, 79, 79)!important;
+    }
+/*== END/Show movie page ==*/
 
 /*==== END/CONSTS ====*/
 
 /*== Navbar ==*/
-    .nav-item:hover{
-        background-color: rgb(97, 118, 227) !important;
-        color: #fff !important;
-        border-radius: 8px;
-    }
-    .nav-link:hover{
-        color: #fff !important;
-    }
+.nav-item:hover{
+    background-color: rgb(97, 118, 227) !important;
+    color: #fff !important;
+    border-radius: 8px;
+}
+.nav-link:hover{
+    color: #fff !important;
+}
 /*== END/Navbar ==*/
 
 /*== Footer ==*/    
-    .footer-container h3, p {
-        color : #e3e3e3 !important; 
-    }
+.footer-container h3, p {
+    color : #e3e3e3 !important; 
+}
 /*== END/Footer ==*/
 
 /*Tablettes*/
 @media all  and (min-width: 601px) and (max-width: 1023px){
-    /*==== CONSTS ====*/
+/*==== CONSTS ====*/
 
-    /*==== END/CONSTS ====*/
+/*==== END/CONSTS ====*/
 }
 
 /*Smartphones*/
 @media all  and (max-width: 600px){
-    /*==== CONSTS ====*/
+/*==== CONSTS ====*/
 
-    /*==== END/CONSTS ====*/
+/*==== END/CONSTS ====*/
 }

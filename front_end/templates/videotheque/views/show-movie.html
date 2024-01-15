@@ -15,7 +15,11 @@
         
         <div class="movie">
             <div class="movie-img">
-                <img src="data:image/jpeg;base64,{{ movie.image64 | safe }}" alt="Movie Cover">
+                {% if movie.extension_trouvee %}
+                    <img src="https://image.tmdb.org/t/p/w500/{{ movie.image64 }}" alt="Movie Cover">
+                {% else %}
+                    <img src="data:image/jpeg;base64,{{ movie.image64 | safe }}" alt="Movie Cover">
+                {% endif %}
             </div>
 
             <div class="movie-content">
@@ -23,49 +27,83 @@
                     <h1>{{ movie.movie_name }}</h1>
                 </div>
                 <div class="movie-date-creation">
-                    <h6>{{ movie.year }}</h6>
+                    <span class="d-flex gap-1">
+                        <span class="material-icons">calendar_month</span>
+                        <strong>Date de sortie</strong>
+                    </span>
+                    <h6 class="color_8">{{ movie.year }}</h6>
                 </div>
                 <div class="movie-category">
-                    <h6>{{ movie.category }}</h6>
+                    <span class="d-flex gap-1">
+                        <span class="material-icons">category</span>
+                        <strong>Genres</strong>
+                    </span> 
+                    <h6 class="color_8">{{ movie.category }}</h6>
                 </div>
                 <div class="movie-rating">
                     <!-- Rempli avec le code jquery -->  
                 </div>
-                <div class="movie-synopsis">
-                    <p>
-                        <strong>Synopsis</strong> 
-                        <br>
-                        <span class="span-synopsis">{{ movie.synopsis }}</span>
-                    </p>
-                </div>
                 <div class="movie-director">
-                    <p>
-                        <strong>Réalisateur</strong> 
-                        <br>
-                        {{ movie.director }}
+                    <span class="d-flex gap-1">
+                        <span class="material-icons">history_edu</span>
+                        <strong>Réalisateurs</strong>
+                    </span> 
+                    <h6 class="color_8">{{ movie.director }}</h6>
+                </div>
+
+                <div class="movie-synopsis">
+                    <span class="d-flex gap-1">
+                        <span class="material-icons">format_quote</span>
+                        <strong>Synopsis</strong>
+                    </span> 
+                    <p class="span-synopsis">
+                        {{ movie.synopsis }}
                     </p>
                 </div>
+
             </div>
         </div>
     </div>
 
-    <style>
-        /* Ce code CSS gère l'image d'arrière plan */
-        .movie::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url('data:image/jpeg;base64,{{ movie.image64 | safe }}');
-            background-size: cover;
-            background-position: center;
-            filter: blur(3px);
-            opacity: 0.5;
-            z-index: -1;
-        }
-    </style>
+    {% if movie.extension_trouvee %}
+        <style>
+            /* Ce code CSS gère l'image d'arrière plan */
+            .movie::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-image: url("https://image.tmdb.org/t/p/w500/{{movie.image64}}");
+                background-size: cover;
+                background-position: center;
+                filter: blur(3px);
+                opacity: 0.5;
+                z-index: -1;
+            }
+        </style>         
+    {% else %}
+        <style>
+            /* Ce code CSS gère l'image d'arrière plan */
+            .movie::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-image: url('data:image/jpeg;base64,{{ movie.image64 | safe }}');
+                background-size: cover;
+                background-position: center;
+                filter: blur(3px);
+                opacity: 0.5;
+                z-index: -1;
+            }
+        </style>
+    {% endif %}
+
+    
 {% endblock %}
 
 {% block jsScripts %}

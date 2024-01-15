@@ -344,9 +344,10 @@ $(document).ready(function() {
 
     // Gestionnaire d'évenement qui sert à envoyer la requête pour afficher les détails d'un film
     $(document).on('click', '.movie_click', function() {
-        var $link = $(this);
-        var originalContent = $link.html();
-        $link.html('<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Chargement...</span></div>');
+        var link = $(this);
+        var originalContent = link.html();
+        link.html('<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Chargement...</span></div>');
+        link.prop('disabled', true);
 
         var movieId = $(this).data('movie-id');
         // Préparation de l'URL et des paramètres pour la requête AJAX
@@ -377,7 +378,9 @@ $(document).ready(function() {
                         movieSynopsis: response.data['synopsis'],
                         runtime: response.data['runtime'],
                         movieCover: response.data['cover_photo'],
-                        backgroundImage: response.data['background_image']
+                        backgroundImage: response.data['background_image'],
+                        budget: response.data['budget'],
+                        revenue: response.data['revenue']
                     };
 
                     // Création d'un formulaire caché pour envoyer les données en POST
@@ -401,9 +404,9 @@ $(document).ready(function() {
                 console.log('Erreur AJAX :', textStatus, errorThrown);
             },
             complete: function() {
-                $link.html(originalContent);
+                link.prop('disabled', false);
+                link.html(originalContent);
             }
         });
-    });
-    
+    });    
 });

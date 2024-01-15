@@ -165,7 +165,6 @@ def deleteUser():
         
         try:
             user_data = request.get_json()                                      # Récupération des données JSON reçus
-            print('API RECU ID:',user_data.get('user_id'))
             user_id = user_data.get('user_id')
             
         except Exception as e:                                                  # Gestion de l'exception
@@ -228,6 +227,7 @@ def getMoviesIndex():
     if request.method == 'GET':
         if current_user.is_authenticated:
             user_id = current_user.id
+            
         api_url = f"{server_back_end_url}/api/get-movies/index"
         
         try:
@@ -553,6 +553,38 @@ def api_themoviedb_get_fast_search():
                 "status": "500",
                 "error": str(e)
             }), 500
+            
+    return jsonify({
+        "status": "405",
+        "error": "Vous devez utiliser une requête GET pour cette route."
+    }), 405
+
+@app.route('/api/videotheque/add/movie/from/themoviedb', methods=['POST'])
+def api_themoviedb_add_to_videotheque():
+
+    if request.method == 'POST':
+        data = request.get_json()
+        
+        if current_user.is_authenticated:
+            user_id = current_user.id
+        
+        film_data = {
+            'user_id': user_id,
+            'movie_name': data['title'],
+            'year_of_creation': data['releaseDate'],
+            'categorie': data['category'],
+            'synopsis': data['synopsis'],
+            'notation': data['notation'],
+            'cover_image': data['coverImage'],
+            'director': 'null'
+        }
+        
+        api_url = f"{server_back_end_url}/api/add-movie"
+        
+        # Envoi des données au serveur en utilisant une requête POST
+        response = requests.post(api_url, json=film_data)
+            
+        return response.json()
             
     return jsonify({
         "status": "405",

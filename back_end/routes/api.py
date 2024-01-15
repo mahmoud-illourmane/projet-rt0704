@@ -199,7 +199,6 @@ def get_movies_index():
     
     try:
         user_data = request.get_json()
-
         user_id = user_data.get('user_id')                                              # Je récupère uniquement les films de l'utilisateur connecté
 
         with open(f'storage/movies_{user_id}.json', 'r') as file:
@@ -208,11 +207,17 @@ def get_movies_index():
         for movie in movies["movies"]:
             image_path = movie["cover_image_path"]
             if image_path:
-                image_path = image_path.replace("\\", "/")
+                # Vérifie si le chemin commence par 'storage\\'
+                if image_path.startswith("storage\\"):
+                    image_path = image_path.replace("\\", "/")
 
-                with open(image_path, "rb") as image_file:
-                    encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
-                    movie["cover_image_base64"] = encoded_string
+                    # Procède à la conversion en base64
+                    with open(image_path, "rb") as image_file:
+                        encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+                        movie["cover_image_base64"] = encoded_string
+                else:
+                    # Stocke simplement le chemin de l'image
+                    movie["cover_image_base64"] = image_path
 
         response = {
             "status": "200",
@@ -300,6 +305,7 @@ def addMovie():
 
         HTTP Status Codes:
             - 200 OK: Si le film est ajouté avec succès.
+            - 400 : Le film existe déjà.
             - 500 Internal Server Error: Si une exception non gérée se produit pendant le traitement.
     """
     
@@ -309,10 +315,9 @@ def addMovie():
             user_id = movie_data.get('user_id')   
             movie = Movie(movie_data)
             response = movie.save_movie(movie, user_id)
-
             return response
         except Exception as e:
-            error_message = f"Erreur de requête vers l'URL distante : {str(e)}"
+            error_message = f"Erreur de requête vers l'URL distante 12: {str(e)}"
             return jsonify({
                 "status": "error",
                 "error": error_message
@@ -470,6 +475,7 @@ def api_themoviedb_get_movie_details():
         Returns:
             Une réponse JSON contenant les détails du film ou une réponse d'erreur en cas d'échec.
     """
+    
     try:
         # Récupère l'identifiant du film depuis les paramètres de la requête HTTP GET
         movieId = request.args.get("movieId")
@@ -517,7 +523,28 @@ def api_themoviedb_get_fast_search():
             "error": str(e)
         }), 500
 
+@app.route('/api/videotheque/add/movie/from/themoviedb', methods=['POST'])
+def api_themoviedb_add_to_videotheque():
+    if request.method == 'POST':
+        try:
+            movie_data = request.json
+            user_id = movie_data.get('user_id')   
+            movie = Movie(movie_data)
+            response = movie.save_movie(movie, user_id)
+
+            return response
+        except Exception as e:
+            error_message = f"Erreur de requête vers l'URL distante : {str(e)}"
+            return jsonify({
+                "status": "error",
+                "error": error_message
+            }), 500
+
+    return jsonify({
+        "status": "405",
+        "error": "Vous devez utiliser une requête GET pour cette route."
+    }), 405
     
-    
+
     
 
