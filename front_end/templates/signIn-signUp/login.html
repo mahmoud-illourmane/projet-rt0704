@@ -12,18 +12,18 @@
     <div class="container">
 
         <div class="form-container">
-            <h1 class="text-center">Connexion</h1>
+            <h1 class="text-center label-sign">Connexion</h1>
             <div class="text-center">
                 <img class="nav-bar-logo" src="{{ url_for('static', filename='images/logo/logo.webp') }}" alt="" width="100">
             </div>
             <div class="login-form">
                 <form class="mb-3" method="post" action="/logIn">
                     <div class="mb-3">
-                        <label for="inputEmail" class="form-label">Adresse mail <span class="color_7">*</span></label>
+                        <label for="inputEmail" class="form-label label-sign">Adresse mail <span class="color_7">*</span></label>
                         <input type="email" class="form-control" name="email" id="inputEmail" aria-describedby="emailHelp" required>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Mot de passe <span class="color_7">*</span></label>
+                        <label for="exampleInputPassword1" class="form-label label-sign">Mot de passe <span class="color_7">*</span></label>
                         <input type="password" class="form-control" name="password" id="inputPassword" required>
                     </div>
                     <div class="d-grid">
@@ -42,4 +42,3 @@
 {% block jsScripts %}
     <script src="{{ url_for('static', filename='js/videotheque/show-movie/show-movie.js') }}"></script>
 {% endblock %}
-
