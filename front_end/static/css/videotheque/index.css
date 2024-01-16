@@ -175,10 +175,10 @@
     /*== Filter ==*/
         .filters {
             flex-direction: column;
-            
+            width: 100%;
         }
-        .btn-submit-filter {
-            text-align: center;
+        .search-movie {
+           width: 100%;
         }
     /*== END/Filter ==*/
 
