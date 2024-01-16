@@ -144,6 +144,12 @@ function stopLoadingAnimation() {
 /*== END/Mode swticher ==*/
 
 $(document).on("DOMContentLoaded", function() {
+
+    // Ouverture et fermeture de la navbar
+    $("#menu_open").click(function(){
+        $('.navbar-links, .navbar-actions').toggle("fade");
+    });
+       
     $("#return_back").click(function() {
         history.back();
     });

@@ -20,7 +20,7 @@ body {
 p, input {
     color: #333131;
 }
-.btn, .filter-title, .label-sign {
+h1, .btn, .filter-title, .label-sign, .nav-link, .logout-button, .mode-switcher-icon, .nav-link-icon {
     color: #fff !important;
 }
 

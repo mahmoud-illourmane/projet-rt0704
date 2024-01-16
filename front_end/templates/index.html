@@ -206,40 +206,54 @@
     <!-- END/Modals -->
         
     <!-- Content -->
-    <div class="container">
-        <h1>Bienvenue dans votre vidéothèque personnelle</h1>
-        <!-- Filter movie-->
-        <div class="filters">
-            <div class="filter-div">
-                <select class="form-select filter-movies-index" aria-label="Catégorie de film" required>
-                    <option class="input" value="Toutes">Filtrer selon une catégorie</option>
-                    <option class="input" value="Action">Action</option>
-                    <option class="input" value="Aventure">Aventure</option>
-                    <option class="input" value="Animation">Animation</option>
-                    <option class="input" value="Comédie">Comédie</option>
-                    <option class="input" value="Drame">Drame</option>
-                    <option class="input" value="Science-fiction">Science-fiction</option>
-                    <option class="input" value="Horreur">Horreur</option>
-                    <option class="input" value="Fantaisie">Fantaisie</option>
-                    <option class="input" value="Thriller">Thriller</option>
-                    <option class="input" value="Romance">Romance</option>
-                    <option class="input" value="Documentaire">Documentaire</option>
-                    <option class="input" value="Crime">Crime</option>
-                    <option class="input" value="Mystère">Mystère</option>
-                    <option class="input" value="Guerre">Guerre</option>
-                    <option class="input" value="Historique">Historique</option>
-                    <option class="input" value="Musique">Musique</option>
-                    <option class="input" value="Familial">Familial</option>
-                    <option class="input" value="Sport">Sport</option>
-                    <option class="input" value="Biographie">Biographie</option>
-                    <option class="input" value="Western">Western</option>
-                    <option class="input" value="Super-héros">Super-héros</option>
-                </select> 
+    <div class="header-background">
+
+        <div class="container">
+            <h1>Bienvenue dans votre vidéothèque personnelle</h1>
+            {% if session.user_info %}
+                <p class="profil-login">Profil connecté {{ session.user_info.first_name }}</p>
+            {% endif %}
+
+            <!-- Filter movie-->
+            <div class="filters">
+                <div class="filter-div">
+                    <select class="form-select filter-movies-index" aria-label="Catégorie de film" required>
+                        <option class="input" value="Toutes">Filtrer selon une catégorie</option>
+                        <option class="input" value="Action">Action</option>
+                        <option class="input" value="Aventure">Aventure</option>
+                        <option class="input" value="Animation">Animation</option>
+                        <option class="input" value="Comédie">Comédie</option>
+                        <option class="input" value="Drame">Drame</option>
+                        <option class="input" value="Science-fiction">Science-fiction</option>
+                        <option class="input" value="Horreur">Horreur</option>
+                        <option class="input" value="Fantaisie">Fantaisie</option>
+                        <option class="input" value="Thriller">Thriller</option>
+                        <option class="input" value="Romance">Romance</option>
+                        <option class="input" value="Documentaire">Documentaire</option>
+                        <option class="input" value="Crime">Crime</option>
+                        <option class="input" value="Mystère">Mystère</option>
+                        <option class="input" value="Guerre">Guerre</option>
+                        <option class="input" value="Historique">Historique</option>
+                        <option class="input" value="Musique">Musique</option>
+                        <option class="input" value="Familial">Familial</option>
+                        <option class="input" value="Sport">Sport</option>
+                        <option class="input" value="Biographie">Biographie</option>
+                        <option class="input" value="Western">Western</option>
+                        <option class="input" value="Super-héros">Super-héros</option>
+                    </select> 
+                </div>
             </div>
-        </div>
+
+            <div class="search-movie">
+                <input class="form-control me-2 input input-search-movie" type="search" placeholder="Chercher un film" aria-label="Search">
+            </div>
+        </div>    
+    </div>
+        
+    <div class="container">
         <div class="movies mb-5">
         </div>
-    </div>    
+    </div>
     
 {% endblock %}
 

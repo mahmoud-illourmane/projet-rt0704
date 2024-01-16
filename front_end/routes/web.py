@@ -247,7 +247,6 @@ def showMovie():
         # Vérifie si les 50 premiers caractères contiennent une des extensions
         if any(coverImage[:50].endswith(ext) for ext in ['.jpg', '.png', '.jpeg', '.webp']):
             extension_trouvee = True
-
         movie_id = request.form.get('movieId')
         category = request.form.get('category')
         movie_name = request.form.get('movieName')

@@ -12,8 +12,8 @@ $(document).ready(function () {
 
         // Récupère le texte complet de synopsis
         var synopsis = $('.span-synopsis').text();
-        // Limite le aux 256 premiers caractères
-        var synopsisAbrege = synopsis.substring(0, 255);
+        // Limite le aux 500 premiers caractères
+        var synopsisAbrege = synopsis.substring(0, 500);
 
         // Extraction du nom de l'image
         var imgMovieUrl = $('.img-movie').attr('src');
@@ -59,8 +59,7 @@ $(document).ready(function () {
                 console.log('Erreur AJAX :', textStatus, errorThrown);
             },
             complete: function() {
-                link.prop('disabled', false);
-                link.html(originalContent);
+                link.hide();
             }
         });
     });

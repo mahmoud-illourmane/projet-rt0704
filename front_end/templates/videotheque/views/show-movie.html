@@ -11,7 +11,7 @@
 {% block content %}
 
     <div class="container">
-        <a id="return_back" class="material-icons arrow_back">arrow_back</a>
+        <a id="return_back" class="material-icons arrow_back mt-3">arrow_back</a>
         
         <div class="movie">
             <div class="movie-img">
@@ -48,7 +48,12 @@
                         <span class="material-icons">history_edu</span>
                         <strong>Réalisateurs</strong>
                     </span> 
-                    <h6 class="color_8">{{ movie.director }}</h6>
+                    {% if movie.director %}
+                        <h6 class="color_8">{{ movie.director }}</h6>
+                    {% else %}
+                        <h6 class="color_8">Non renseigné</h6>
+                    {% endif %}
+                    
                 </div>
 
                 <div class="movie-synopsis">

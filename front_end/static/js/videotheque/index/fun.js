@@ -138,6 +138,24 @@ var modalAddMovie = $('#modalAddMovie');
         });
     }   
 
+    // Attachez un gestionnaire d'événement à l'input de recherche
+    $('.input-search-movie').on('input', function() {
+        let searchTerm = $(this).val().toLowerCase(); // Récupérez le terme de recherche en minuscules
+
+        // Parcourez toutes les divs avec la classe "movie"
+        $('.movie').each(function() {
+            let movieName = $(this).find('.movie-title h6').text().toLowerCase(); // Récupérez le nom du film en minuscules
+
+            // Vérifiez si le nom du film contient le terme de recherche
+            if (movieName.includes(searchTerm)) {
+                $(this).show(); // Affichez la div du film s'il correspond à la recherche
+            } else {
+                $(this).hide(); // Masquez la div du film s'il ne correspond pas à la recherche
+            }
+        });
+    });
+
+
     /*== Envoi la demande POST pour afficher le contenu détaillés d'un film ==*/
         /*
         * Gestionnnaire d'évenement sur l'icon qui permet d'afficher la vue détaillé sur un film
@@ -189,6 +207,9 @@ var modalAddMovie = $('#modalAddMovie');
         * Gestionnnaire d'évenement sur l'icon qui permet de supprimer un film
         */
         $(document).on('click', 'a[id^="deleteButtonMovie"]', function () {
+            // Je supprime le modal car sinon la prochaine fois que je voudrais
+            // supprimer un autre film si la page n'a pas été rechargée, ça ne marchera pas.
+            $('.parent-container-delete-movie').find('#confirmModalDelete').remove();
             var buttonId = $(this).attr('id');
             var movieName = $(this).data('movie-name');
             var movieId = $(this).data('movie-id');
@@ -225,7 +246,7 @@ var modalAddMovie = $('#modalAddMovie');
         $(document).on('click', '#btnConfirmDeleteMovie', function () {
             // Récupére l'ID du film à partir de l'attribut data-id
             var movieId = $(this).data('id');
-
+            console.log(movieId);
             // Requête AJAX avec l'ID du film
             $.ajax({
                 url: '/delete-movie',
@@ -248,6 +269,9 @@ var modalAddMovie = $('#modalAddMovie');
                     console.log("Réponse du serveur : ", jqXHR.responseText);
                     console.log("Code d'état : ", jqXHR.status);
                     showToastMessage("Une erreur est survenue : " + textStatus + " - " + errorThrown, "text-danger");
+                },
+                complete() {
+                    console.log(movieId);
                 }
             });
         });

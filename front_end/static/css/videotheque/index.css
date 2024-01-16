@@ -64,12 +64,28 @@
     }
 /*== END/Modal gestions movie ==*/
 
+/*== Header-background ==*/
+    .header-background {
+        background: linear-gradient(45deg, rgb(72, 72, 111), rgb(15, 21, 68));
+        min-height: 200px;
+        text-align: center;
+    }
+/*== END/header-background ==*/
+
 /*== Filter body movies ==*/
     .filters {
         display: flex;
         gap: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 20%;
     }
-    
+    .search-movie {
+        margin-top: 20px;
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+    }
 /*== END/Filter body movie ==*/
 
 /*== Movies ==*/

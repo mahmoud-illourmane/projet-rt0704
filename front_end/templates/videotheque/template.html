@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo/logo.ico') }}">
 
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tools/navbar.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dark-mode/style.css') }}" id="theme-style">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tools/tools.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tools/colors.css') }}">
     {% block css %}{% endblock %}
 
     {% block title %}{% endblock %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <!-- Glows-div -->
@@ -562,68 +562,51 @@
 <body class="body">
     <button onclick="topFunction()" id="upBoutton" title="Go to top"><i class="material-icons">arrow_upward</i></button>
     <!-- Navbar -->
-    <div class="custom-navbar">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">
-                    <img class="nav-bar-logo" src="{{ url_for('static', filename='images/logo/logo.webp') }}" alt="" width="50">
-                </a>
-                <div class="menu">
-                    <a id="menu_open" class="material-icons menu_open" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">menu</a>
-                </div>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <nav class="custom-navbar">
 
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
-                        <li class="nav-item">
-                            <div class="nav-item-nav-bar">
-                                <span class="material-icons nav-link-icon">movie</span>
-                                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#modalAddMovie">Ajouter un film</a>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="nav-item-nav-bar">
-                                <span class="material-icons nav-link-icon">manage_search</span>
-                                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#modalGestionsMovies">Gérer mes films</a>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="nav-item-nav-bar">
-                                <span class="material-icons nav-link-icon">api</span>
-                                <a class="nav-link" href="{{ url_for('themoviedb') }}">TheMovieDB</a>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="nav-item-nav-bar">
-                                <span class="material-icons nav-link-icon">settings</span>
-                                <a type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#settingsModal">Paramètres</a>
-                            </div>
-                        </li>
-                        
-                    </ul>
-
-                    <div class="d-flex gap-5">
-                        <div class="nav-item-nav-bar">
-                            
-                            <a type="button" class="btn btn-primary d-flex" href="{{ url_for('logout') }}">
-                                <span class="material-icons">logout</span>
-                                Déconnexion
-                            </a>
-                        </div>
-
-                        <div class="switcher-modes">
-                            <a id="mode-switcher">
-                                <i class="material-icons mode-switcher-icon dark-mode-icon">brightness_3</i>
-                                <i class="material-icons mode-switcher-icon light-mode-icon">wb_sunny</i>
-                            </a>
-                        </div>  
-                    </div>
-                </div>
+        <div class="nav-header">
+            <a class="navbar-brand" href="/">
+                <img class="nav-bar-logo" src="{{ url_for('static', filename='images/logo/logo.webp') }}" alt="" width="50">
+            </a>
+            <div class="menu" id="menu_open">
+                <span class="material-icons">menu</span>
             </div>
-        </nav>
-    </div>
+        </div>
+
+        <div class="navbar-links" id="navbarSupportedContent">
+            <div class="nav-item">
+                <span class="material-icons nav-link-icon">movie</span>
+                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#modalAddMovie">Ajouter un film</a>
+            </div>
+            <div class="nav-item">
+                <span class="material-icons nav-link-icon">manage_search</span>
+                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#modalGestionsMovies">Gérer mes films</a>
+            </div>
+            <div class="nav-item">
+                <span class="material-icons nav-link-icon">api</span>
+                <a class="nav-link" href="{{ url_for('themoviedb') }}">TheMovieDB</a>
+            </div>
+            <div class="nav-item">
+                <span class="material-icons nav-link-icon">settings</span>
+                <a class="nav-link" class="nav-link" data-bs-toggle="modal" data-bs-target="#settingsModal">Paramètres</a>
+            </div>
+        </div>   
+        
+        <div class="navbar-actions">
+            <div class="div-btn-logout">
+                <a href="{{ url_for('logout') }}" class="logout-button">
+                    <span class="material-icons">logout</span>
+                    Déconnexion
+                </a>
+            </div>
+            <div class="div-switch-mode">
+                <a id="mode-switcher" href="#">
+                    <i class="material-icons mode-switcher-icon dark-mode-icon">brightness_3</i>
+                    <i class="material-icons mode-switcher-icon light-mode-icon">wb_sunny</i>
+                </a>
+            </div>
+        </div>
+    </nav>
 
     <!-- Modal Settings -->
     <div class="modal fade" id="settingsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
@@ -671,12 +654,6 @@
     </div>
 
     <div class="body-content mb-5">
-        <div class="container">
-            {% if session.user_info %}
-                <p class="user">Profil connecté {{ session.user_info.first_name }}</p>
-            {% endif %}
-        </div>
-
         {% block content %}{% endblock %}
     </div>
 

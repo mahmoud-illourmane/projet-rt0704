@@ -1,0 +1,93 @@
+/*==== CONSTS ====*/
+
+/*==== END/CONSTS ====*/
+
+.custom-navbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(28, 21, 72);
+    padding: 5px;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.div-btn-logout {
+    display: flex;
+    align-items: center;
+}
+.logout-button {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    background-color: rgb(215, 45, 45);
+    padding: 6px;
+    border-radius: 10px;
+}
+
+/*Tablettes*/
+@media all  and (min-width: 601px) and (max-width: 1023px){
+    /*==== CONSTS ====*/
+
+    /*==== END/CONSTS ====*/
+
+    .custom-navbar {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .nav-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .nav-item, .div-switch-mode, .div-btn-logout {
+        margin-bottom: 15px;
+        margin-left: 20px;
+    } 
+
+    .navbar-links, .navbar-actions {
+        display: none;
+    }
+}
+
+/*Smartphones*/
+@media all  and (max-width: 600px){
+    /*==== CONSTS ====*/
+
+    /*==== END/CONSTS ====*/
+
+    .custom-navbar {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .nav-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .nav-item, .div-switch-mode, .div-btn-logout {
+        margin-bottom: 15px;
+        margin-left: 20px;
+    } 
+
+    .navbar-links, .navbar-actions {
+        display: none;
+    }
+}
