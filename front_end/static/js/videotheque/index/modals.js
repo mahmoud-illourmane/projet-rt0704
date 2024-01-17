@@ -9,7 +9,9 @@
 $(document).on("DOMContentLoaded", function() {
 
     /*== Modal d'ajout d'un film ==*/
+
         /*== Rating movie ==*/
+
             /**
              * Ce gestionnaire d'événement permet d'obtenir 
              * le nombre d'étoiles données à un film
@@ -58,24 +60,24 @@ $(document).on("DOMContentLoaded", function() {
                 // Création de l'objet FormData
                 var formData = new FormData($form[0]);
                 var directorInput = formData.get('director');
-                if (!directorInput) formData.set('director', 'Inconnue'); // Remplace par "Inconnue"
+                if (!directorInput) formData.set('director', 'Inconnue');       // Remplace par "Inconnue"
         
                 // Requête Ajax avec jQuery
                 $.ajax({
                     url: '/add-movie',
                     type: 'POST',
                     data: formData,
-                    processData: false, // L'objet FormData gère automatiquement ces informations.
-                    contentType: false, // L'objet FormData gère automatiquement ces informations.
+                    processData: false,                                         // L'objet FormData gère automatiquement ces informations.
+                    contentType: false,                                         // L'objet FormData gère automatiquement ces informations.
                     success: function (response) {
                         if (response.status === "200") {
                             showToastMessage(response.message, "text-success");
         
-                            $form[0].reset();       // Réinitialiser le formulaire pour effacer son contenu
-                            $('.synopsis').val(''); // Réinitialiser le champ .synopsis à vide
+                            $form[0].reset();                                   // Réinitialiser le formulaire pour effacer son contenu
+                            $('.synopsis').val('');                             // Réinitialiser le champ .synopsis à vide
         
-                            updateCharCount();      // Mettre à jour le compteur de caractères restants
-                            loadMoviesIndex();      // Rappel de la méthode pour réafficher les films avec le nouveau
+                            updateCharCount();                                  // Mettre à jour le compteur de caractères restants
+                            loadMoviesIndex();                                  // Rappel de la méthode pour réafficher les films avec le nouveau
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {

@@ -100,7 +100,7 @@ class User:
         users[new_user.id] = {
             'first_name': new_user.first_name,
             'email': new_user.email,
-            'password': new_user.password  # Attention : stocker le mot de passe en clair n'est pas sécurisé
+            'password': new_user.password  # Le mot de passe en clair.
         }
         with open(cls.users_file_path, 'w') as file:
             json.dump(users, file, indent=4)

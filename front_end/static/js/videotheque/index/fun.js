@@ -1,17 +1,16 @@
 /**
  |
- |  This file contains all JS code for different functions.
+ |  This file contains all JS code for the index page.
  |  AUTHOR: MAHMOUD ILLOURMANE
  |  DATE: 12-23-23 US DATE
  | 
  */
 
-// Modals IDs
+// Modal add movie ID
 var modalAddMovie = $('#modalAddMovie');                                
 
 /*== Loading animation ==*/
     var spinner, glowDivs, pageContent;
-
     $(document).ready(function() {
         // Initialisation des variables globales
         spinner = $("#loading-animation");
@@ -29,15 +28,16 @@ var modalAddMovie = $('#modalAddMovie');
 /*== Body content ==*/
 
     /**
-     * Ce code permet de filtrer les films affiché sur la page d'accueil de l'application.
+     * Ce code permet de filtrer les films affiché sur la page d'accueil de l'application selon la catégorie.
     */
     $('.filter-movies-index').change(function() {
-        var selectedCategory = $(this).val(); // Obtenir la catégorie sélectionnée
+        var selectedCategory = $(this).val();                   // Obtenir la catégorie sélectionnée
         $('.movie').each(function() {
-            if ($(this).data('category') === selectedCategory || selectedCategory === "Toutes") {
-                $(this).show(); // Affiche les films si la catégorie correspond
+            if ($(this).data('category') === selectedCategory 
+                || selectedCategory === "Toutes") {
+                $(this).show();                                 // Affiche les films si la catégorie correspond
             } else {
-                $(this).hide(); // Cache les films sinon
+                $(this).hide();                                 // Cache les films sinon
             }
         });
     });    
@@ -49,11 +49,11 @@ var modalAddMovie = $('#modalAddMovie');
         $.ajax({
             url: 'api/get-movies/index', 
             method: 'GET',
-            dataType: 'json', // Cette option indique le type de données que j'attends de recevoir en réponse du serveur
+            dataType: 'json',                           // Cette option indique le type de données que j'attends de recevoir en réponse du serveur
             success: function(response) {
                 if(response.status == "200") {
                     let moviesContainer = $('.movies');
-                    moviesContainer.empty(); // Vide le conteneurs parant avant de charger les nouveaux films
+                    moviesContainer.empty();            // Vide le conteneurs parant avant de charger les nouveaux films
                     
                     if (response.data.movies && response.data.movies.length > 0) {
                         response.data.movies.forEach(movie => {
@@ -111,8 +111,8 @@ var modalAddMovie = $('#modalAddMovie');
                             
                             moviesContainer.append(movieHtml);
                         });
-                        // Arrête l'animation de chargement
-                        stopLoadingAnimation();
+
+                        stopLoadingAnimation();  // Arrête l'animation de chargement
                     } else {
                         stopLoadingAnimation();
                         showToastMessage("Vous n'avez aucun film pour l'instant.", "text-danger");
@@ -138,27 +138,30 @@ var modalAddMovie = $('#modalAddMovie');
         });
     }   
 
-    // Attachez un gestionnaire d'événement à l'input de recherche
+    /**
+     * Gestionnaire d'événement sur l'input de recherche
+     */
     $('.input-search-movie').on('input', function() {
-        let searchTerm = $(this).val().toLowerCase(); // Récupérez le terme de recherche en minuscules
+        let searchTerm = $(this).val().toLowerCase();
 
-        // Parcourez toutes les divs avec la classe "movie"
+        // Parcoure toutes les divs avec la classe "movie"
         $('.movie').each(function() {
-            let movieName = $(this).find('.movie-title h6').text().toLowerCase(); // Récupérez le nom du film en minuscules
+            let movieName = $(this).find('.movie-title h6').text().toLowerCase(); 
 
-            // Vérifiez si le nom du film contient le terme de recherche
+            // Vérifie si le nom du film contient le terme de recherche
             if (movieName.includes(searchTerm)) {
-                $(this).show(); // Affichez la div du film s'il correspond à la recherche
+                $(this).show(); // Affiche la div du film s'il correspond à la recherche
             } else {
-                $(this).hide(); // Masquez la div du film s'il ne correspond pas à la recherche
+                $(this).hide(); // Masque la div du film s'il ne correspond pas à la recherche
             }
         });
     });
 
-
     /*== Envoi la demande POST pour afficher le contenu détaillés d'un film ==*/
+
         /*
         * Gestionnnaire d'évenement sur l'icon qui permet d'afficher la vue détaillé sur un film
+        * La méthode est brute il existe plus simple.
         */
         $(document).on('click', 'a[id^="showMore"]', function (event) {
             event.preventDefault(); // Empêche la navigation par défaut
@@ -246,7 +249,7 @@ var modalAddMovie = $('#modalAddMovie');
         $(document).on('click', '#btnConfirmDeleteMovie', function () {
             // Récupére l'ID du film à partir de l'attribut data-id
             var movieId = $(this).data('id');
-            console.log(movieId);
+
             // Requête AJAX avec l'ID du film
             $.ajax({
                 url: '/delete-movie',
@@ -257,7 +260,8 @@ var modalAddMovie = $('#modalAddMovie');
                     if (response.status == "200") {
                         $('#confirmModalDelete').modal('hide');
                         showToastMessage(response.message, "text-success");
-                        loadMovies();
+                        // Je recharge de nouveau les films pour enlever celui qui a été supprimé
+                        loadMovies();       
                         loadMoviesIndex();
                     } else {
                         showToastMessage(response.error, "text-danger");
@@ -271,15 +275,9 @@ var modalAddMovie = $('#modalAddMovie');
                     showToastMessage("Une erreur est survenue : " + textStatus + " - " + errorThrown, "text-danger");
                 },
                 complete() {
-                    console.log(movieId);
                 }
             });
         });
     /*== END/Suppression d'un film sur la page d'index ==*/
     
 /*== END/Body content ==*/
-
-
-
-
-
