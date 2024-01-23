@@ -574,14 +574,16 @@
         </div>
 
         <div class="navbar-links" id="navbarSupportedContent">
-            <div class="nav-item">
-                <span class="material-icons nav-link-icon">movie</span>
-                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#modalAddMovie">Ajouter un film</a>
-            </div>
-            <div class="nav-item">
-                <span class="material-icons nav-link-icon">manage_search</span>
-                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#modalGestionsMovies">Gérer mes films</a>
-            </div>
+            {% if request.path != '/show-movie' %}
+                <div class="nav-item">
+                    <span class="material-icons nav-link-icon">movie</span>
+                    <a class="nav-link" data-bs-toggle="modal" data-bs-target="#modalAddMovie">Ajouter un film</a>
+                </div>
+                <div class="nav-item">
+                    <span class="material-icons nav-link-icon">manage_search</span>
+                    <a class="nav-link" data-bs-toggle="modal" data-bs-target="#modalGestionsMovies">Gérer mes films</a>
+                </div>
+            {% endif %}
             <div class="nav-item">
                 <span class="material-icons nav-link-icon">api</span>
                 <a class="nav-link" href="{{ url_for('themoviedb') }}">TheMovieDB</a>
@@ -590,6 +592,7 @@
                 <span class="material-icons nav-link-icon">settings</span>
                 <a class="nav-link" class="nav-link" data-bs-toggle="modal" data-bs-target="#settingsModal">Paramètres</a>
             </div>
+            
         </div>   
         
         <div class="navbar-actions">

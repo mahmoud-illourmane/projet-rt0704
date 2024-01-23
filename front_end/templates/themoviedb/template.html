@@ -421,12 +421,22 @@
         </div>   
         
         <div class="navbar-actions">
-            <div class="div-btn-logout">
-                <a href="{{ url_for('logout') }}" class="logout-button">
-                    <span class="material-icons">logout</span>
-                    Déconnexion
-                </a>
-            </div>
+            {% if user is defined %}
+                <div class="div-btn-logout">
+                    <a href="{{ url_for('logout') }}" class="logout-button">
+                        <span class="material-icons">logout</span>
+                        Déconnexion
+                    </a>
+                </div>
+            {% else %}
+                <div class="div-btn-login">
+                    <a href="{{ url_for('login') }}" class="login-button">
+                        <span class="material-icons">login</span>
+                        Connexion
+                    </a>
+                </div>
+            {% endif %}
+
             <div class="div-switch-mode">
                 <a id="mode-switcher" href="#">
                     <i class="material-icons mode-switcher-icon dark-mode-icon">brightness_3</i>

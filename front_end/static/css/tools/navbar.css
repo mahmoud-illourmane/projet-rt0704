@@ -26,15 +26,24 @@
     gap: 10px;
 }
 
-.div-btn-logout {
+.div-btn-logout, .div-btn-login {
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 .logout-button {
     display: inline-flex;
     align-items: center;
     text-decoration: none;
     background-color: rgb(215, 45, 45);
+    padding: 6px;
+    border-radius: 10px;
+}
+.login-button {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    background-color: rgb(20, 110, 23);
     padding: 6px;
     border-radius: 10px;
 }

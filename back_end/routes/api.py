@@ -57,7 +57,6 @@ def signUp():
             
             try:
                 new_user = User.register(email, password, firstName)    # Appel de la méthode qui enregistre un utilisateur
-                
                 if 'status' in new_user and new_user['status'] == 201:  # Gestion des réponses
                     return jsonify(new_user), 201
                 else:

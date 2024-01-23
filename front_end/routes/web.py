@@ -50,7 +50,7 @@ def signUp():
     """
     
     if request.method == 'GET':
-        return render_template('signIn-signUp/sigUp.html')
+        return render_template('signIn-signUp/signUp.html')
     
     elif request.method == 'POST':
         firstName = request.form['firstName']

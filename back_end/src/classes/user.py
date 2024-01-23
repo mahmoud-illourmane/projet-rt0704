@@ -122,7 +122,8 @@ class User:
         
         if cls.email_exists(email):
             return {
-                'status': 409
+                'status': 409,
+                'error': 'L\'email est déjà utilisé.'
             }
 
         new_user = cls(email, password, first_name)
