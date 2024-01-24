@@ -245,30 +245,7 @@ def getMoviesIndex():
         "status": "error", 
         "error": "Method Not Allowed"
     }), 405
-
-@app.route('/client/get/ressource', methods=['GET'])
-def get_sans_parametre():
-    """
-        DOCUMENTATION.
-    """
-    if request.method == 'GET':
-        api_url = f"{server_back_end_url}/api/get/ressource"
-    try:
-        response = requests.get(api_url)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        error_message = f"Erreur de requête vers l'URL distante : {str(e)}"
-        return jsonify({
-            "status": 500, 
-            "error": error_message
-        }), 500
-
-    return jsonify({
-        "status": 405, 
-        "error": "Method Not Allowed"
-    }), 405
-    
+ 
 @app.route('/api/get-movies/gestions', methods=['GET'])
 def getMoviesGestions():
     """
