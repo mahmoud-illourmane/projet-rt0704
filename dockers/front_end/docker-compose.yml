@@ -1,4 +1,4 @@
-version: '2'                                      # Utilisation de la version 2 de la syntaxe docker-compose
+version: '3'                                      # Utilisation de la version 2 de la syntaxe docker-compose
 services:                                         # Définition des services (conteneurs) que vous souhaitez exécuter
 
   front_end:                                      # Nom du service, ici 'front_end', qui sera utilisé pour référencer ce service dans Docker
