@@ -45,108 +45,64 @@ $(document).on("DOMContentLoaded", function() {
             updateCharCount();
         /*== END/Counter synopsis ==*/
 
-        /**
-         * Cette fonction est appelée lorsque le formulaire avec l'ID "formAddMovie" est soumis.
-         * Elle vérifie la validité du formulaire, prépare les données, et envoie la demande.
-         */
+
+        /*
+        * Cette méthode envoie les données au serveur pour l'ajout d'un film
+        */
         function submitFormAddMovie() {
+            // Sélection du formulaire avec jQuery
             var $form = $("#formAddMovie");
         
-            if (validateForm($form)) {
-                var formData = new FormData($form[0]);
-                setDefaultDirector(formData);
-                sendAddMovieRequest(formData, $form);
-            }
-        
-            $form.addClass('was-validated');
-        }
-        
-        /**
-         * Cette fonction vérifie si le formulaire est valide.
-         * Si le formulaire n'est pas valide, elle empêche la soumission.
-         * @param {jQuery} $form - Le formulaire jQuery à valider.
-         * @returns {boolean} - True si le formulaire est valide, sinon False.
-         */
-        function validateForm($form) {
+            // Vérifie si le formulaire est valide
             if (!$form[0].checkValidity()) {
                 event.preventDefault();
                 event.stopPropagation();
-                return false;
-            }
-            return true;
-        }
+            } else {
+                // Création de l'objet FormData
+                var formData = new FormData($form[0]);
+                var directorInput = formData.get('director');
+                if (!directorInput) formData.set('director', 'Inconnue'); // Remplace par "Inconnue"
         
-        /**
-         * Cette fonction définit le directeur par défaut à "Inconnue" si le champ est vide.
-         * @param {FormData} formData - Les données du formulaire.
-         */
-        function setDefaultDirector(formData) {
-            var directorInput = formData.get('director');
-            if (!directorInput) formData.set('director', 'Inconnue');
-        }
-
-        /**
-         * Cette fonction envoie une requête AJAX POST pour ajouter un film.
-         * @param {FormData} formData - Les données du formulaire à envoyer.
-         * @param {jQuery} $form - Le formulaire jQuery associé.
-         */
-        function sendAddMovieRequest(formData, $form) {
-            $.ajax({
-                url: '/add-movie',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                beforeSend: function() {
-                    disableSubmitButton(true);
-                },
-                success: function (response) {
-                    handleSuccess(response, $form);
-                },
-                error: function(jqXHR) {
-                    handleError(jqXHR);
-                },
-                complete: function() {
-                    disableSubmitButton(false);
-                }
-            });
-        }
+                // Requête Ajax avec jQuery
+                $.ajax({
+                    url: '/add-movie',
+                    type: 'POST',
+                    data: formData,
+                    processData: false, // L'objet FormData gère automatiquement ces informations.
+                    contentType: false, // L'objet FormData gère automatiquement ces informations.
+                    success: function (response) {
+                        if (response.status === "200") {
+                            showToastMessage(response.message, "text-success");
         
-        /**
-         * Cette fonction désactive ou active le bouton de soumission.
-         * @param {boolean} disable - True pour désactiver le bouton, False pour l'activer.
-         */
-        function disableSubmitButton(disable) {
-            $('#submitButton').prop('disabled', disable);
-        }
-
-        /**
-         * Cette fonction gère le succès de la requête AJAX.
-         * Elle affiche un message toast, réinitialise le formulaire, efface le champ de synopsis,
-         * met à jour un compteur de caractères et charge les films.
-         * @param {object} response - La réponse de la requête AJAX.
-         * @param {jQuery} $form - Le formulaire jQuery associé.
-         */
-        function handleSuccess(response, $form) {
-            if (response.status === "200") {
-                showToastMessage(response.message, "text-success");
-                $form[0].reset();
-                $('.synopsis').val('');
-                updateCharCount();
-                loadMoviesIndex();
+                            $form[0].reset();       // Réinitialiser le formulaire pour effacer son contenu
+                            $('.synopsis').val(''); // Réinitialiser le champ .synopsis à vide
+        
+                            updateCharCount();      // Mettre à jour le compteur de caractères restants
+                            loadMoviesIndex();      // Rappel de la méthode pour réafficher les films avec le nouveau
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log("[modals.js] Statut de l'erreur : ", textStatus);
+                        console.log("[modals.js] Texte de l'erreur : ", errorThrown);
+                        console.log("[modals.js] Réponse du serveur : ", jqXHR.responseText);
+                        console.log("[modals.js] Code d'état : ", jqXHR.status);
+                    
+                        // Afficher le message d'erreur renvoyé par Flask
+                        let responseJson = JSON.parse(jqXHR.responseText);
+                        
+                        if (jqXHR.status === 500) {
+                            let errorMessage = "Erreur interne du serveur : " + responseJson.error;
+                            showToastMessage(errorMessage, "text-danger");
+                        } else {
+                            let errorMessage = "Erreur : " + responseJson.error;
+                            showToastMessage(errorMessage, "text-danger");
+                        }
+                    }
+                });
             }
-        }
-
-        /**
-         * Cette fonction gère les erreurs de la requête AJAX.
-         * Elle affiche un message d'erreur en fonction de la réponse du serveur et du code d'erreur.
-         * @param {object} jqXHR - L'objet représentant la réponse de la requête AJAX.
-         */
-        function handleError(jqXHR) {
-            console.log("[modals.js] Réponse du serveur : ", jqXHR.responseText);
-            let responseJson = JSON.parse(jqXHR.responseText);
-            let errorMessage = jqXHR.status === 500 ? "Erreur interne du serveur : " : "Erreur : ";
-            showToastMessage(errorMessage + responseJson.error, "text-danger");
+        
+            // Ajoute la classe was-validated pour déclencher les styles de validation
+            $form.addClass('was-validated');
         }
         
         // Exportation de la fonction en global
