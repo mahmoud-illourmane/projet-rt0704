@@ -8,7 +8,7 @@ services:                                         # Définition des services (co
     image: image_flask_front_end:1.0              # Nom et tag de l'image Docker qui sera créée
     container_name: container_p_rt_0704_front_end # Nom du conteneur Docker qui sera créé
     ports:
-      - "5001:5000"                               # Mappage des ports: port 5001 de l'hôte vers le port 5000 du conteneur
+      - "5000:5000"                               # Mappage des ports: port 5001 de l'hôte vers le port 5000 du conteneur
     volumes:
       - /home/toto/projet-rt0704/front_end:/app   # Montage du volume: dossier sur l'hôte vers le dossier dans le conteneur
     networks:
