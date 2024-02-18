@@ -5,8 +5,6 @@ back_end/__pycache__/
 back_end/storage/
 back_end/storage/users.json
 
-app.py
-
 *.pyc
 *.pyo
 *.pyd
