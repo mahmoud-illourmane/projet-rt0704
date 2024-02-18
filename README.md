@@ -27,3 +27,10 @@ Le projet est organisé comme suit :
 1. **Cloner le dépôt :**
    ```bash
    git clone https://github.com/mahmoud-illourmane/projet-rt0704
+
+2. **Lancer les conteneurs :**
+   ```bash
+   ubuntu@esys:~/projet-rt0704/dockers/back_end$ docker compose up -d
+   ubuntu@esys:~/projet-rt0704/dockers/front_end$ docker compose up -d
+4. **Utiliser l'application :**
+   Entrez l'url dans un navigateur : addresse_ip:5000
